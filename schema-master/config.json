@@ -1567,6 +1567,20 @@
           ],
           "default": "T"
         },
+        "toggleVerified": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ],
+          "default": "!"
+        },
         "checkoutCommit": {
           "oneOf": [
             {

@@ -194,6 +194,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` a `` | 設定/重設提交作者 | 設定或重置提交的作者，或新增其他作者。 |
 | `` t `` | 還原 | 為所選提交建立還原提交，這會反向應用所選提交的更改。 |
 | `` T `` | 打標籤到提交 | 建立一個新標籤指向所選提交。您可以在彈窗中輸入標籤名稱和描述(可選)。 |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` <ctrl+l> `` | 開啟記錄選單 | 檢視提交日誌的選項，例如更改排序順序、隱藏 git graph、顯示整個 git graph。 |
 | `` G `` | 在瀏覽器中開啟拉取請求 |  |
 | `` <space> `` | 檢出 | 檢出所選擇的提交作為分離HEAD。 |

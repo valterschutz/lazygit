@@ -802,6 +802,7 @@ keybinding:
     pasteCommits: V
     markCommitAsBaseForRebase: B
     tagCommit: T
+    toggleVerified: '!'
     checkoutCommit: <space>
     resetCherryPick: <ctrl+r>
     copyCommitAttributeToClipboard: "y"

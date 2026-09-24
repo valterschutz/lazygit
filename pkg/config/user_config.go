@@ -633,6 +633,7 @@ type KeybindingCommitsConfig struct {
 	PasteCommits                   Keybinding `yaml:"pasteCommits"`
 	MarkCommitAsBaseForRebase      Keybinding `yaml:"markCommitAsBaseForRebase"`
 	CreateTag                      Keybinding `yaml:"tagCommit"`
+	ToggleVerified                 Keybinding `yaml:"toggleVerified"`
 	CheckoutCommit                 Keybinding `yaml:"checkoutCommit"`
 	ResetCherryPick                Keybinding `yaml:"resetCherryPick"`
 	CopyCommitAttributeToClipboard Keybinding `yaml:"copyCommitAttributeToClipboard"`
@@ -1148,6 +1149,7 @@ func GetDefaultConfigForPlatform(platform string) *UserConfig {
 				PasteCommits:                   Keybinding{"V"},
 				MarkCommitAsBaseForRebase:      Keybinding{"B"},
 				CreateTag:                      Keybinding{"T"},
+				ToggleVerified:                 Keybinding{"!"},
 				CheckoutCommit:                 Keybinding{"<space>"},
 				ResetCherryPick:                Keybinding{"<ctrl+r>"},
 				CopyCommitAttributeToClipboard: Keybinding{"y"},

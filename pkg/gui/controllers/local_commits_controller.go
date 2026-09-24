@@ -649,6 +649,13 @@ func (self *LocalCommitsController) GetKeybindings(opts types.KeybindingsOpts) [
 			Tooltip:           self.c.Tr.TagCommitTooltip,
 		},
 		{
+			Keys:              opts.GetKeys(opts.Config.Commits.ToggleVerified),
+			Handler:           self.withItem(self.toggleVerified),
+			GetDisabledReason: self.require(self.singleItemSelected(self.canToggleVerified)),
+			Description:       self.c.Tr.ToggleVerified,
+			Tooltip:           self.c.Tr.ToggleVerifiedTooltip,
+		},
+		{
 			Keys:        opts.GetKeys(opts.Config.Commits.OpenLogMenu),
 			Handler:     self.handleOpenLogMenu,
 			Description: self.c.Tr.OpenLogMenu,
@@ -1675,6 +1682,18 @@ func countSquashableCommitsAbove(commits []*models.Commit, selectedIdx int, reba
 
 func (self *LocalCommitsController) createTag(commit *models.Commit) error {
 	return self.c.Helpers().Tags.OpenCreateTagPrompt(commit.Hash(), func() {})
+}
+
+func (self *LocalCommitsController) toggleVerified(commit *models.Commit) error {
+	return self.c.Helpers().VerifiedCommits.Toggle(commit.Hash())
+}
+
+func (self *LocalCommitsController) canToggleVerified(_ *models.Commit) *types.DisabledReason {
+	if !self.c.Helpers().VerifiedCommits.Enabled() {
+		return &types.DisabledReason{Text: self.c.Tr.VerifiedCommitsFileNotSet}
+	}
+
+	return nil
 }
 
 func (self *LocalCommitsController) openSearch() error {

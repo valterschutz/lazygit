@@ -177,6 +177,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` a `` | Amend commit attribute | Set/Reset commit author or set co-author. |
 | `` t `` | Revert | Maak een revert commit voor de geselecteerde commit, die de wijzigingen in deze commit terugdraait. |
 | `` T `` | Tag commit | Maak een nieuwe tag die naar de geselecteerde commit wijst. Je wordt gevraagd om een tag naam en optionele omschrijving. |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` <ctrl+l> `` | Log opties weergeven | View options for commit log e.g. changing sort order, hiding the git graph, showing the whole git graph. |
 | `` G `` | Open pull request in browser |  |
 | `` <space> `` | Uitchecken | Check de geselecteerde branch uit als een detached HEAD. |

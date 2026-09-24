@@ -593,6 +593,9 @@ type TranslationSet struct {
 	EditRemoteTooltip                     string
 	TagCommit                             string
 	TagCommitTooltip                      string
+	ToggleVerified                        string
+	ToggleVerifiedTooltip                 string
+	VerifiedCommitsFileNotSet             string
 	TagNameTitle                          string
 	TagMessageTitle                       string
 	LightweightTag                        string
@@ -1762,6 +1765,9 @@ func EnglishTranslationSet() *TranslationSet {
 		EditRemoteTooltip:                    "Edit the selected remote's name or URL.",
 		TagCommit:                            "Tag commit",
 		TagCommitTooltip:                     "Create a new tag pointing at the selected commit. You'll be prompted to enter a tag name and optional description.",
+		ToggleVerified:                       "Toggle verified",
+		ToggleVerifiedTooltip:                "Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config.",
+		VerifiedCommitsFileNotSet:            "Set gui.verifiedCommitsFile in your config to mark commits as verified",
 		TagNameTitle:                         "Tag name",
 		TagMessageTitle:                      "Tag description",
 		AnnotatedTag:                         "Annotated tag",

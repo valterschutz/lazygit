@@ -53,11 +53,13 @@ type Helpers struct {
 	Search            *SearchHelper
 	Worktree          *WorktreeHelper
 	SubCommits        *SubCommitsHelper
+	VerifiedCommits   *VerifiedCommitsHelper
 }
 
 func NewStubHelpers() *Helpers {
 	return &Helpers{
 		Refs:              &RefsHelper{},
+		VerifiedCommits:   &VerifiedCommitsHelper{},
 		Bisect:            &BisectHelper{},
 		Suggestions:       &SuggestionsHelper{},
 		Files:             &FilesHelper{},

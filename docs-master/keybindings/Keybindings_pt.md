@@ -181,6 +181,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` a `` | Alterar atributo de commit | Definir/Redefinir autor de submissão ou co-autor definido. |
 | `` t `` | Reverter | Crie um commit reverter para o commit selecionado, que aplica as alterações do commit selecionado em reverso. |
 | `` T `` | Etiquetar commit | Create a new tag pointing at the selected commit. You'll be prompted to enter a tag name and optional description. |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` <ctrl+l> `` | View log options | View options for commit log e.g. changing sort order, hiding the git graph, showing the whole git graph. |
 | `` G `` | Open pull request in browser |  |
 | `` <space> `` | Verificar | Checkout the selected commit as a detached HEAD. |

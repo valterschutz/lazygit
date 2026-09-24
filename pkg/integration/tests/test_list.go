@@ -163,6 +163,7 @@ var tests = []*components.IntegrationTest{
 	commit.StageRangeOfLines,
 	commit.Staged,
 	commit.StagedWithoutHooks,
+	commit.ToggleVerified,
 	commit.Unstaged,
 	config.CustomCommandsInPerRepoConfig,
 	config.NegativeRefspec,
