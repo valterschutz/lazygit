@@ -75,6 +75,29 @@ var ToggleVerified = NewIntegrationTest(NewIntegrationTestArgs{
 				Contains("○").Contains("two"),
 				Contains("○").Contains("one").IsSelected(),
 			).
+			// A range is marked as a whole, and only unmarked once every
+			// commit in it is marked.
+			NavigateToLine(Contains("three")).
+			Press(keys.Universal.ToggleRangeSelect).
+			SelectNextItem().
+			SelectNextItem().
+			Lines(
+				Contains("●").Contains("three").IsSelected(),
+				Contains("○").Contains("two").IsSelected(),
+				Contains("○").Contains("one").IsSelected(),
+			).
+			Press(keys.Commits.ToggleVerified).
+			Lines(
+				Contains("●").Contains("three").IsSelected(),
+				Contains("●").Contains("two").IsSelected(),
+				Contains("●").Contains("one").IsSelected(),
+			).
+			Press(keys.Commits.ToggleVerified).
+			Lines(
+				Contains("○").Contains("three").IsSelected(),
+				Contains("○").Contains("two").IsSelected(),
+				Contains("○").Contains("one").IsSelected(),
+			).
 			PressEscape()
 
 		t.Views().Commits().

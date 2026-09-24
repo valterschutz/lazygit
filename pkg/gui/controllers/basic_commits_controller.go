@@ -130,8 +130,8 @@ func (self *BasicCommitsController) GetKeybindings(opts types.KeybindingsOpts) [
 		},
 		{
 			Keys:              opts.GetKeys(opts.Config.Commits.ToggleVerified),
-			Handler:           self.withItem(self.toggleVerified),
-			GetDisabledReason: self.require(self.singleItemSelected(self.canToggleVerified)),
+			Handler:           self.withItems(self.toggleVerified),
+			GetDisabledReason: self.require(self.itemsSelected(self.canToggleVerified)),
 			Description:       self.c.Tr.ToggleVerified,
 			Tooltip:           self.c.Tr.ToggleVerifiedTooltip,
 		},
@@ -399,11 +399,12 @@ func (self *BasicCommitsController) openDiffTool(commit *models.Commit) error {
 	return err
 }
 
-func (self *BasicCommitsController) toggleVerified(commit *models.Commit) error {
-	return self.c.Helpers().VerifiedCommits.Toggle(commit.Hash())
+func (self *BasicCommitsController) toggleVerified(commits []*models.Commit) error {
+	hashes := lo.Map(commits, func(commit *models.Commit, _ int) string { return commit.Hash() })
+	return self.c.Helpers().VerifiedCommits.Toggle(hashes)
 }
 
-func (self *BasicCommitsController) canToggleVerified(_ *models.Commit) *types.DisabledReason {
+func (self *BasicCommitsController) canToggleVerified(_ []*models.Commit) *types.DisabledReason {
 	if !self.c.Helpers().VerifiedCommits.Enabled() {
 		return &types.DisabledReason{Text: self.c.Tr.VerifiedCommitsFileNotSet}
 	}

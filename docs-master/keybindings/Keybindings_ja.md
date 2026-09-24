@@ -96,7 +96,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` g `` | リセット | 選択した項目へのリセットオプション（ソフト/ミックス/ハード）を表示します。各リセットタイプの詳細は次の通りです：<br>- ソフトリセット：変更を保持し、ステージされた状態にします<br>- ミックスリセット：変更を保持し、ステージされていない状態にします<br>- ハードリセット：すべての変更を破棄します |
 | `` C `` | コピー（チェリーピック） | コミットをコピーとしてマークします。ローカルコミットビューで `V` を押すと、コピーしたコミットをチェックアウトしたブランチにペースト（チェリーピック）できます。いつでも `<esc>` を押して選択をキャンセルできます。 |
 | `` <ctrl+t> `` | 外部差分ツールを開く（git difftool） |  |
-| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
+| `` ! `` | Toggle verified | Mark the selected commits as verified by you, or unmark them if they all are already. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | 現在のブランチのコミットを選択 |  |
 | `` 0 `` | メインビューにフォーカス |  |
 | `` <enter> `` | ファイルを表示 |  |
@@ -144,7 +144,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` C `` | コピー（チェリーピック） | コミットをコピーとしてマークします。ローカルコミットビューで `V` を押すと、コピーしたコミットをチェックアウトしたブランチにペースト（チェリーピック）できます。いつでも `<esc>` を押して選択をキャンセルできます。 |
 | `` <ctrl+r> `` | コピーされた（チェリーピックされた）コミットの選択をリセット |  |
 | `` <ctrl+t> `` | 外部差分ツールを開く（git difftool） |  |
-| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
+| `` ! `` | Toggle verified | Mark the selected commits as verified by you, or unmark them if they all are already. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | 現在のブランチのコミットを選択 |  |
 | `` 0 `` | メインビューにフォーカス |  |
 | `` <enter> `` | ファイルを表示 |  |
@@ -333,7 +333,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` C `` | コピー（チェリーピック） | コミットをコピーとしてマークします。ローカルコミットビューで `V` を押すと、コピーしたコミットをチェックアウトしたブランチにペースト（チェリーピック）できます。いつでも `<esc>` を押して選択をキャンセルできます。 |
 | `` <ctrl+r> `` | コピーされた（チェリーピックされた）コミットの選択をリセット |  |
 | `` <ctrl+t> `` | 外部差分ツールを開く（git difftool） |  |
-| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
+| `` ! `` | Toggle verified | Mark the selected commits as verified by you, or unmark them if they all are already. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | 現在のブランチのコミットを選択 |  |
 | `` 0 `` | メインビューにフォーカス |  |
 | `` <enter> `` | コミットを表示 |  |

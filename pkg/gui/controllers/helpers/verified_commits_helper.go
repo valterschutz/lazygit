@@ -17,8 +17,10 @@ func (self *VerifiedCommitsHelper) Enabled() bool {
 	return self.store().Enabled()
 }
 
-func (self *VerifiedCommitsHelper) Toggle(hash string) error {
-	verifiedCommits, err := self.store().Toggle(hash)
+// Toggle marks the commits as verified, or unmarks them if they all are
+// already, and redraws the commit lists.
+func (self *VerifiedCommitsHelper) Toggle(hashes []string) error {
+	verifiedCommits, err := self.store().Toggle(hashes)
 	if err != nil {
 		return err
 	}

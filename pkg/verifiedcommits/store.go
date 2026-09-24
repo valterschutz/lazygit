@@ -10,6 +10,7 @@ import (
 
 	"github.com/jesseduffield/generics/set"
 	"github.com/jesseduffield/lazygit/pkg/utils"
+	"github.com/samber/lo"
 )
 
 // Store persists the hashes of the commits the user has marked as verified in
@@ -52,15 +53,19 @@ func (self *Store) Load() (*set.Set[string], error) {
 	return hashes, nil
 }
 
-// Toggle marks the commit as verified if it is not, and unmarks it otherwise,
-// and returns the resulting hashes. The file is re-read first so that entries
-// added on another machine in the meantime are kept.
-func (self *Store) Toggle(hash string) (*set.Set[string], error) {
+// Toggle marks the commits as verified, unless all of them already are, in
+// which case it unmarks them; it returns the resulting hashes. The file is
+// re-read first so that entries added on another machine in the meantime are
+// kept.
+func (self *Store) Toggle(toggled []string) (*set.Set[string], error) {
 	if !self.Enabled() {
-		panic("cannot toggle a verified commit in a disabled store")
+		panic("cannot toggle verified commits in a disabled store")
 	}
-	if hash == "" {
-		panic("commit hash must not be empty")
+	if len(toggled) == 0 {
+		panic("at least one commit hash must be given")
+	}
+	if slices.Contains(toggled, "") {
+		panic("commit hashes must not be empty")
 	}
 
 	hashes, err := self.Load()
@@ -68,10 +73,11 @@ func (self *Store) Toggle(hash string) (*set.Set[string], error) {
 		return nil, err
 	}
 
-	if hashes.Includes(hash) {
-		hashes.Remove(hash)
+	allVerified := lo.EveryBy(toggled, hashes.Includes)
+	if allVerified {
+		hashes.RemoveSlice(toggled)
 	} else {
-		hashes.Add(hash)
+		hashes.Add(toggled...)
 	}
 
 	if err := self.save(hashes); err != nil {
