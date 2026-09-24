@@ -63,6 +63,7 @@ func NewLocalCommitsContext(c *ContextCommon) *LocalCommitsContext {
 			hasRebaseUpdateRefsConfig,
 			c.State().GetRepoState().GetScreenMode() != types.SCREEN_NORMAL,
 			c.Modes().CherryPicking.SelectedHashSet(),
+			c.Model().VerifiedCommits,
 			c.Modes().Diffing.Ref,
 			c.Modes().MarkedBaseCommit.GetHash(),
 			c.UserConfig().Gui.TimeFormat,

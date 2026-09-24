@@ -6,11 +6,14 @@ import (
 
 	"github.com/gookit/color"
 	"github.com/jesseduffield/lazygit/pkg/gui/style"
+	"github.com/samber/lo"
 )
 
 const (
-	MergeSymbol  = '◎'
-	CommitSymbol = '○'
+	MergeSymbol          = '◎'
+	CommitSymbol         = '○'
+	VerifiedMergeSymbol  = '◉'
+	VerifiedCommitSymbol = '●'
 )
 
 type cellType int
@@ -24,6 +27,7 @@ const (
 type Cell struct {
 	up, down, left, right bool
 	cellType              cellType
+	verified              bool
 	rightStyle            *style.TextStyle
 	style                 *style.TextStyle
 }
@@ -37,9 +41,9 @@ func (cell *Cell) render(writer io.StringWriter) {
 	case CONNECTION:
 		adjustedFirst = first
 	case COMMIT:
-		adjustedFirst = string(CommitSymbol)
+		adjustedFirst = string(lo.Ternary(cell.verified, VerifiedCommitSymbol, CommitSymbol))
 	case MERGE:
-		adjustedFirst = string(MergeSymbol)
+		adjustedFirst = string(lo.Ternary(cell.verified, VerifiedMergeSymbol, MergeSymbol))
 	}
 
 	var rightStyle *style.TextStyle
@@ -141,6 +145,11 @@ func (cell *Cell) setStyle(style *style.TextStyle) *Cell {
 
 func (cell *Cell) setType(cellType cellType) *Cell {
 	cell.cellType = cellType
+	return cell
+}
+
+func (cell *Cell) setVerified(verified bool) *Cell {
+	cell.verified = verified
 	return cell
 }
 

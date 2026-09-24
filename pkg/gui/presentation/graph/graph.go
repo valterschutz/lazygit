@@ -45,13 +45,13 @@ func (self Pipe) right() int16 {
 	return max(self.fromPos, self.toPos)
 }
 
-func RenderCommitGraph(commits []*models.Commit, selectedCommitHashPtr *string, getStyle func(c *models.Commit) *style.TextStyle) []string {
+func RenderCommitGraph(commits []*models.Commit, selectedCommitHashPtr *string, verifiedCommitHashSet *set.Set[string], getStyle func(c *models.Commit) *style.TextStyle) []string {
 	pipeSets := GetPipeSets(commits, getStyle)
 	if len(pipeSets) == 0 {
 		return nil
 	}
 
-	lines := RenderAux(pipeSets, commits, selectedCommitHashPtr)
+	lines := RenderAux(pipeSets, commits, selectedCommitHashPtr, verifiedCommitHashSet)
 
 	return lines
 }
@@ -69,7 +69,7 @@ func GetPipeSets(commits []*models.Commit, getStyle func(c *models.Commit) *styl
 	})
 }
 
-func RenderAux(pipeSets [][]Pipe, commits []*models.Commit, selectedCommitHashPtr *string) []string {
+func RenderAux(pipeSets [][]Pipe, commits []*models.Commit, selectedCommitHashPtr *string, verifiedCommitHashSet *set.Set[string]) []string {
 	maxProcs := runtime.GOMAXPROCS(0)
 
 	// splitting up the rendering of the graph into multiple goroutines allows us to render the graph in parallel
@@ -93,7 +93,8 @@ func RenderAux(pipeSets [][]Pipe, commits []*models.Commit, selectedCommitHashPt
 				if k > 0 {
 					prevCommit = commits[k-1]
 				}
-				line := renderPipeSet(pipeSet, selectedCommitHashPtr, prevCommit)
+				verified := verifiedCommitHashSet.Includes(commits[k].Hash())
+				line := renderPipeSet(pipeSet, selectedCommitHashPtr, prevCommit, verified)
 				innerLines = append(innerLines, line)
 			}
 			chunks[i] = innerLines
@@ -276,6 +277,7 @@ func renderPipeSet(
 	pipes []Pipe,
 	selectedCommitHashPtr *string,
 	prevCommit *models.Commit,
+	verified bool,
 ) string {
 	maxPos := int16(0)
 	commitPos := int16(0)
@@ -365,7 +367,7 @@ func renderPipeSet(
 		cType = MERGE
 	}
 
-	cells[commitPos].setType(cType)
+	cells[commitPos].setType(cType).setVerified(verified)
 
 	// using a string builder here for the sake of performance
 	writer := &strings.Builder{}

@@ -45,6 +45,7 @@ func GetCommitListDisplayStrings(
 	hasRebaseUpdateRefsConfig bool,
 	fullDescription bool,
 	cherryPickedCommitHashSet *set.Set[string],
+	verifiedCommitHashSet *set.Set[string],
 	diffName string,
 	markedBaseCommit string,
 	timeFormat string,
@@ -103,6 +104,7 @@ func GetCommitListDisplayStrings(
 						graphPipeSets,
 						graphCommits,
 						selectedCommitHashPtr,
+						verifiedCommitHashSet,
 					)
 					allGraphLines = append(allGraphLines, graphLines...)
 				}
@@ -120,6 +122,7 @@ func GetCommitListDisplayStrings(
 						graphPipeSets,
 						graphCommits,
 						selectedCommitHashPtr,
+						verifiedCommitHashSet,
 					)
 					allGraphLines = append(allGraphLines, graphLines...)
 				}
@@ -141,6 +144,7 @@ func GetCommitListDisplayStrings(
 				graphPipeSets,
 				graphCommits,
 				selectedCommitHashPtr,
+				verifiedCommitHashSet,
 			)
 			getGraphLine = func(idx int) string {
 				if idx >= graphOffset {

@@ -35,6 +35,7 @@ func TestGetCommitListDisplayStrings(t *testing.T) {
 		hasUpdateRefConfig        bool
 		fullDescription           bool
 		cherryPickedCommitHashSet *set.Set[string]
+		verifiedCommitHashSet     *set.Set[string]
 		markedBaseCommit          string
 		diffName                  string
 		timeFormat                string
@@ -213,6 +214,30 @@ func TestGetCommitListDisplayStrings(t *testing.T) {
 		hash4 ○ commit4
 		hash5 ○ commit5
 						`),
+		},
+		{
+			testName: "showing graph with verified commits",
+			commitOpts: []models.NewCommitOpts{
+				{Name: "commit1", Hash: "hash1", Parents: []string{"hash2", "hash3"}},
+				{Name: "commit2", Hash: "hash2", Parents: []string{"hash3"}},
+				{Name: "commit3", Hash: "hash3", Parents: []string{"hash4"}},
+				{Name: "commit4", Hash: "hash4", Parents: []string{"hash5"}},
+				{Name: "commit5", Hash: "hash5", Parents: []string{"hash7"}},
+			},
+			startIdx:                  0,
+			endIdx:                    5,
+			showGraph:                 true,
+			bisectInfo:                git_commands.NewNullBisectInfo(),
+			cherryPickedCommitHashSet: set.New[string](),
+			verifiedCommitHashSet:     set.NewFromSlice([]string{"hash1", "hash3"}),
+			now:                       time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC),
+			expected: formatExpected(`
+			hash1 ◉─╮ commit1
+			hash2 ○ │ commit2
+			hash3 ●─╯ commit3
+			hash4 ○ commit4
+			hash5 ○ commit5
+							`),
 		},
 		{
 			testName: "showing graph, including rebase commits",
@@ -590,6 +615,11 @@ func TestGetCommitListDisplayStrings(t *testing.T) {
 				commits := lo.Map(s.commitOpts,
 					func(opts models.NewCommitOpts, _ int) *models.Commit { return models.NewCommit(hashPool, opts) })
 
+				verifiedCommitHashSet := s.verifiedCommitHashSet
+				if verifiedCommitHashSet == nil {
+					verifiedCommitHashSet = set.New[string]()
+				}
+
 				result := GetCommitListDisplayStrings(
 					common,
 					commits,
@@ -598,6 +628,7 @@ func TestGetCommitListDisplayStrings(t *testing.T) {
 					s.hasUpdateRefConfig,
 					s.fullDescription,
 					s.cherryPickedCommitHashSet,
+					verifiedCommitHashSet,
 					s.diffName,
 					s.markedBaseCommit,
 					s.timeFormat,

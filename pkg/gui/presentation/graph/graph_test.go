@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/gookit/color"
+	"github.com/jesseduffield/generics/set"
 	"github.com/jesseduffield/lazygit/pkg/commands/models"
 	"github.com/jesseduffield/lazygit/pkg/gui/presentation/authors"
 	"github.com/jesseduffield/lazygit/pkg/gui/style"
@@ -20,8 +21,24 @@ func TestRenderCommitGraph(t *testing.T) {
 	tests := []struct {
 		name           string
 		commitOpts     []models.NewCommitOpts
+		verifiedHashes []string
 		expectedOutput string
 	}{
+		{
+			name: "with verified commits",
+			commitOpts: []models.NewCommitOpts{
+				{Hash: "1", Parents: []string{"2", "3"}},
+				{Hash: "2", Parents: []string{"3"}},
+				{Hash: "3", Parents: []string{"4"}},
+				{Hash: "4", Parents: []string{"5"}},
+			},
+			verifiedHashes: []string{"1", "3"},
+			expectedOutput: `
+			1 ◉─╮
+			2 ○ │
+			3 ●─╯
+			4 ○`,
+		},
 		{
 			name: "with some merges",
 			commitOpts: []models.NewCommitOpts{
@@ -224,7 +241,7 @@ func TestRenderCommitGraph(t *testing.T) {
 			getStyle := func(c *models.Commit) *style.TextStyle { return &style.FgDefault }
 			commits := lo.Map(test.commitOpts,
 				func(opts models.NewCommitOpts, _ int) *models.Commit { return models.NewCommit(hashPool, opts) })
-			lines := RenderCommitGraph(commits, hashPool.Add("blah"), getStyle)
+			lines := RenderCommitGraph(commits, hashPool.Add("blah"), set.NewFromSlice(test.verifiedHashes), getStyle)
 
 			trimmedExpectedOutput := ""
 			for line := range strings.SplitSeq(strings.TrimPrefix(test.expectedOutput, "\n"), "\n") {
@@ -462,7 +479,7 @@ func TestRenderPipeSet(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			actualStr := renderPipeSet(test.pipes, pool("selected"), test.prevCommit)
+			actualStr := renderPipeSet(test.pipes, pool("selected"), test.prevCommit, false)
 			t.Log("actual cells:")
 			t.Log(actualStr)
 			expectedStr := ""
@@ -540,8 +557,8 @@ func TestGetNextPipes(t *testing.T) {
 		getStyle := func(c *models.Commit) *style.TextStyle { return &style.FgDefault }
 		pipes := getNextPipes(test.prevPipes, test.commit, getStyle)
 		// rendering cells so that it's easier to see what went wrong
-		actualStr := renderPipeSet(pipes, pool("selected"), nil)
-		expectedStr := renderPipeSet(test.expected, pool("selected"), nil)
+		actualStr := renderPipeSet(pipes, pool("selected"), nil, false)
+		expectedStr := renderPipeSet(test.expected, pool("selected"), nil, false)
 		t.Log("expected cells:")
 		t.Log(expectedStr)
 		t.Log("actual cells:")
@@ -562,7 +579,7 @@ func BenchmarkRenderCommitGraph(b *testing.B) {
 	}
 	b.ResetTimer()
 	for b.Loop() {
-		RenderCommitGraph(commits, hashPool.Add("selected"), getStyle)
+		RenderCommitGraph(commits, hashPool.Add("selected"), set.New[string](), getStyle)
 	}
 }
 
