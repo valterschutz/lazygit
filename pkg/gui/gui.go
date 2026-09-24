@@ -4,6 +4,7 @@ import (
 	goContext "context"
 	"errors"
 	"fmt"
+	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 	"io"
 	"os"
 	"path/filepath"
@@ -15,7 +16,6 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/jesseduffield/generics/set"
 	"github.com/jesseduffield/lazycore/pkg/boxlayout"
 	appTypes "github.com/jesseduffield/lazygit/pkg/app/types"
 	"github.com/jesseduffield/lazygit/pkg/commands"
@@ -635,7 +635,7 @@ func (gui *Gui) resetState(startArgs appTypes.StartArgs) types.Context {
 			HashPool:              &utils.StringPool{},
 			PullRequests:          gui.loadCachedPullRequests(),
 			PullRequestsMap:       make(map[string]*models.GithubPullRequest),
-			VerifiedCommits:       set.New[string](),
+			CommitStatuses:        map[string]commitstatus.Status{},
 		},
 		Modes: &types.Modes{
 			Filtering:        filtering.New(startArgs.FilterPath, ""),

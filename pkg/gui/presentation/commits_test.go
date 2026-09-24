@@ -1,6 +1,7 @@
 package presentation
 
 import (
+	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 	"strings"
 	"testing"
 	"time"
@@ -35,7 +36,7 @@ func TestGetCommitListDisplayStrings(t *testing.T) {
 		hasUpdateRefConfig        bool
 		fullDescription           bool
 		cherryPickedCommitHashSet *set.Set[string]
-		verifiedCommitHashSet     *set.Set[string]
+		commitStatuses            map[string]commitstatus.Status
 		markedBaseCommit          string
 		diffName                  string
 		timeFormat                string
@@ -216,7 +217,7 @@ func TestGetCommitListDisplayStrings(t *testing.T) {
 						`),
 		},
 		{
-			testName: "showing graph with verified commits",
+			testName: "showing graph with verified and addressed commits",
 			commitOpts: []models.NewCommitOpts{
 				{Name: "commit1", Hash: "hash1", Parents: []string{"hash2", "hash3"}},
 				{Name: "commit2", Hash: "hash2", Parents: []string{"hash3"}},
@@ -229,13 +230,17 @@ func TestGetCommitListDisplayStrings(t *testing.T) {
 			showGraph:                 true,
 			bisectInfo:                git_commands.NewNullBisectInfo(),
 			cherryPickedCommitHashSet: set.New[string](),
-			verifiedCommitHashSet:     set.NewFromSlice([]string{"hash1", "hash3"}),
-			now:                       time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC),
+			commitStatuses: map[string]commitstatus.Status{
+				"hash1": commitstatus.Verified,
+				"hash3": commitstatus.Addressed,
+				"hash4": commitstatus.Verified,
+			},
+			now: time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC),
 			expected: formatExpected(`
-			hash1 ◉─╮ commit1
+			hash1 ◑─╮ commit1
 			hash2 ○ │ commit2
 			hash3 ●─╯ commit3
-			hash4 ○ commit4
+			hash4 ◐ commit4
 			hash5 ○ commit5
 							`),
 		},
@@ -615,9 +620,9 @@ func TestGetCommitListDisplayStrings(t *testing.T) {
 				commits := lo.Map(s.commitOpts,
 					func(opts models.NewCommitOpts, _ int) *models.Commit { return models.NewCommit(hashPool, opts) })
 
-				verifiedCommitHashSet := s.verifiedCommitHashSet
-				if verifiedCommitHashSet == nil {
-					verifiedCommitHashSet = set.New[string]()
+				commitStatuses := s.commitStatuses
+				if commitStatuses == nil {
+					commitStatuses = map[string]commitstatus.Status{}
 				}
 
 				result := GetCommitListDisplayStrings(
@@ -628,7 +633,7 @@ func TestGetCommitListDisplayStrings(t *testing.T) {
 					s.hasUpdateRefConfig,
 					s.fullDescription,
 					s.cherryPickedCommitHashSet,
-					verifiedCommitHashSet,
+					commitStatuses,
 					s.diffName,
 					s.markedBaseCommit,
 					s.timeFormat,

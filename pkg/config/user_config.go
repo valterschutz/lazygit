@@ -182,8 +182,8 @@ type GuiConfig struct {
 	CommitAuthorLongLength int `yaml:"commitAuthorLongLength"`
 	// Length of commit hash in commits view. 0 shows '*' if NF icons aren't on.
 	CommitHashLength int `yaml:"commitHashLength" jsonschema:"minimum=0"`
-	// Path of a plain text file holding the hashes of the commits you have marked as verified, one per line. Such commits are drawn with a filled circle in the commit graph. A leading ~ is expanded to your home directory. If empty (default), the feature is disabled.
-	VerifiedCommitsFile string `yaml:"verifiedCommitsFile"`
+	// Path of the commit-status file hunk writes beside its review file, one `<hash> <status>` per line. A commit is drawn half filled in the commit graph once every hunk is accepted or rejected in hunk (verified), and filled once no rejected hunk is left unaddressed (addressed). A leading ~ is expanded to your home directory. If empty (default), the feature is disabled.
+	CommitStatusFile string `yaml:"commitStatusFile"`
 	// If true, show commit hashes alongside branch names in the branches view.
 	ShowBranchCommitHash bool `yaml:"showBranchCommitHash"`
 	// Whether to show the divergence from the base branch in the branches view.
@@ -633,7 +633,6 @@ type KeybindingCommitsConfig struct {
 	PasteCommits                   Keybinding `yaml:"pasteCommits"`
 	MarkCommitAsBaseForRebase      Keybinding `yaml:"markCommitAsBaseForRebase"`
 	CreateTag                      Keybinding `yaml:"tagCommit"`
-	ToggleVerified                 Keybinding `yaml:"toggleVerified"`
 	CheckoutCommit                 Keybinding `yaml:"checkoutCommit"`
 	ResetCherryPick                Keybinding `yaml:"resetCherryPick"`
 	CopyCommitAttributeToClipboard Keybinding `yaml:"copyCommitAttributeToClipboard"`
@@ -916,7 +915,7 @@ func GetDefaultConfigForPlatform(platform string) *UserConfig {
 			CommitAuthorShortLength:             2,
 			CommitAuthorLongLength:              17,
 			CommitHashLength:                    8,
-			VerifiedCommitsFile:                 "",
+			CommitStatusFile:                    "",
 			ShowBranchCommitHash:                false,
 			ShowDivergenceFromBaseBranch:        "none",
 			CommandLogSize:                      8,
@@ -1149,7 +1148,6 @@ func GetDefaultConfigForPlatform(platform string) *UserConfig {
 				PasteCommits:                   Keybinding{"V"},
 				MarkCommitAsBaseForRebase:      Keybinding{"B"},
 				CreateTag:                      Keybinding{"T"},
-				ToggleVerified:                 Keybinding{"!"},
 				CheckoutCommit:                 Keybinding{"<space>"},
 				ResetCherryPick:                Keybinding{"<ctrl+r>"},
 				CopyCommitAttributeToClipboard: Keybinding{"y"},

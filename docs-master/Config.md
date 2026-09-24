@@ -285,11 +285,12 @@ gui:
   # Length of commit hash in commits view. 0 shows '*' if NF icons aren't on.
   commitHashLength: 8
 
-  # Path of a plain text file holding the hashes of the commits you have marked as
-  # verified, one per line. Such commits are drawn with a filled circle in the
-  # commit graph. A leading ~ is expanded to your home directory. If empty
-  # (default), the feature is disabled.
-  verifiedCommitsFile: ""
+  # Path of the commit-status file hunk writes beside its review file, one `<hash>
+  # <status>` per line. A commit is drawn half filled in the commit graph once
+  # every hunk is accepted or rejected in hunk (verified), and filled once no
+  # rejected hunk is left unaddressed (addressed). A leading ~ is expanded to your
+  # home directory. If empty (default), the feature is disabled.
+  commitStatusFile: ""
 
   # If true, show commit hashes alongside branch names in the branches view.
   showBranchCommitHash: false
@@ -802,7 +803,6 @@ keybinding:
     pasteCommits: V
     markCommitAsBaseForRebase: B
     tagCommit: T
-    toggleVerified: '!'
     checkoutCommit: <space>
     resetCherryPick: <ctrl+r>
     copyCommitAttributeToClipboard: "y"
