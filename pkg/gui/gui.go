@@ -1098,7 +1098,7 @@ func (gui *Gui) runSubprocess(cmdObj *oscommands.CmdObj) error {
 	subprocess.Stderr = os.Stderr
 	subprocess.Stdin = os.Stdin
 
-	fmt.Fprintf(os.Stdout, "\n%s\n\n", style.FgBlue.Sprint("+ "+strings.Join(subprocess.Args, " ")))
+	printSubprocessCommand(subprocess.Args)
 
 	err := subprocess.Run()
 
@@ -1115,6 +1115,10 @@ func (gui *Gui) runSubprocess(cmdObj *oscommands.CmdObj) error {
 	}
 
 	return err
+}
+
+func printSubprocessCommand(args []string) {
+	fmt.Fprintf(os.Stdout, "\n%s\n\n", style.FgBlue.Sprint("+ "+strings.Join(args, " ")))
 }
 
 var isFirstRefreshAfterStartup = true
