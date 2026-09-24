@@ -1098,7 +1098,13 @@ func (gui *Gui) runSubprocess(cmdObj *oscommands.CmdObj) error {
 	subprocess.Stderr = os.Stderr
 	subprocess.Stdin = os.Stdin
 
-	printSubprocessCommand(subprocess.Args)
+	// Everything we print here goes to the terminal lazygit was started from,
+	// where it outlives lazygit itself, so we only echo the command in the
+	// cases where we also stop afterwards for the user to read its output.
+	echoed := gui.integrationTest == nil && gui.Config.GetUserConfig().PromptToReturnFromSubprocess
+	if echoed {
+		printSubprocessCommand(subprocess.Args)
+	}
 
 	err := subprocess.Run()
 
@@ -1107,6 +1113,9 @@ func (gui *Gui) runSubprocess(cmdObj *oscommands.CmdObj) error {
 	subprocess.Stdin = nil
 
 	if gui.integrationTest == nil && (gui.Config.GetUserConfig().PromptToReturnFromSubprocess || err != nil) {
+		if !echoed {
+			printSubprocessCommand(subprocess.Args)
+		}
 		fmt.Fprintf(os.Stdout, "\n%s", style.FgGreen.Sprint(gui.Tr.PressEnterToReturn))
 
 		// scan to buffer to prevent run unintentional operations when TUI resumes.
