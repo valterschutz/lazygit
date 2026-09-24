@@ -287,9 +287,9 @@ gui:
 
   # Path of the commit-status file hunk writes beside its review file, one `<hash>
   # <status>` per line. A commit is drawn half filled in the commit graph once
-  # every hunk is accepted or rejected in hunk (verified), and filled once no
-  # rejected hunk is left unaddressed (addressed). A leading ~ is expanded to your
-  # home directory. If empty (default), the feature is disabled.
+  # every hunk is decided (reviewed), and filled once every decision is accepted
+  # or fixed (approved). A leading ~ is expanded to your home directory. If empty
+  # (default), the feature is disabled.
   commitStatusFile: ""
 
   # If true, show commit hashes alongside branch names in the branches view.

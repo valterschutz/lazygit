@@ -2,10 +2,11 @@ package graph
 
 import (
 	"fmt"
-	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 	"math/rand"
 	"strings"
 	"testing"
+
+	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 
 	"github.com/gookit/color"
 	"github.com/jesseduffield/lazygit/pkg/commands/models"
@@ -25,7 +26,7 @@ func TestRenderCommitGraph(t *testing.T) {
 		expectedOutput string
 	}{
 		{
-			name: "with verified and addressed commits",
+			name: "with reviewed and approved commits",
 			commitOpts: []models.NewCommitOpts{
 				{Hash: "1", Parents: []string{"2", "3"}},
 				{Hash: "2", Parents: []string{"3"}},
@@ -33,9 +34,9 @@ func TestRenderCommitGraph(t *testing.T) {
 				{Hash: "4", Parents: []string{"5"}},
 			},
 			statuses: map[string]commitstatus.Status{
-				"1": commitstatus.Verified,
-				"3": commitstatus.Addressed,
-				"4": commitstatus.Verified,
+				"1": commitstatus.Reviewed,
+				"3": commitstatus.Approved,
+				"4": commitstatus.Reviewed,
 			},
 			expectedOutput: `
 			1 ◑─╮
@@ -483,7 +484,7 @@ func TestRenderPipeSet(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			actualStr := renderPipeSet(test.pipes, pool("selected"), test.prevCommit, commitstatus.Unverified)
+			actualStr := renderPipeSet(test.pipes, pool("selected"), test.prevCommit, commitstatus.Unreviewed)
 			t.Log("actual cells:")
 			t.Log(actualStr)
 			expectedStr := ""
@@ -561,8 +562,8 @@ func TestGetNextPipes(t *testing.T) {
 		getStyle := func(c *models.Commit) *style.TextStyle { return &style.FgDefault }
 		pipes := getNextPipes(test.prevPipes, test.commit, getStyle)
 		// rendering cells so that it's easier to see what went wrong
-		actualStr := renderPipeSet(pipes, pool("selected"), nil, commitstatus.Unverified)
-		expectedStr := renderPipeSet(test.expected, pool("selected"), nil, commitstatus.Unverified)
+		actualStr := renderPipeSet(pipes, pool("selected"), nil, commitstatus.Unreviewed)
+		expectedStr := renderPipeSet(test.expected, pool("selected"), nil, commitstatus.Unreviewed)
 		t.Log("expected cells:")
 		t.Log(expectedStr)
 		t.Log("actual cells:")

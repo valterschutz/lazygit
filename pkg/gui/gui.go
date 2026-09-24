@@ -4,7 +4,6 @@ import (
 	goContext "context"
 	"errors"
 	"fmt"
-	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 	"io"
 	"os"
 	"path/filepath"
@@ -15,6 +14,8 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 
 	"github.com/jesseduffield/lazycore/pkg/boxlayout"
 	appTypes "github.com/jesseduffield/lazygit/pkg/app/types"

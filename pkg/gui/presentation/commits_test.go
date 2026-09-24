@@ -1,10 +1,11 @@
 package presentation
 
 import (
-	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 
 	"github.com/gookit/color"
 	"github.com/jesseduffield/generics/set"
@@ -217,7 +218,7 @@ func TestGetCommitListDisplayStrings(t *testing.T) {
 						`),
 		},
 		{
-			testName: "showing graph with verified and addressed commits",
+			testName: "showing graph with reviewed and approved commits",
 			commitOpts: []models.NewCommitOpts{
 				{Name: "commit1", Hash: "hash1", Parents: []string{"hash2", "hash3"}},
 				{Name: "commit2", Hash: "hash2", Parents: []string{"hash3"}},
@@ -231,9 +232,9 @@ func TestGetCommitListDisplayStrings(t *testing.T) {
 			bisectInfo:                git_commands.NewNullBisectInfo(),
 			cherryPickedCommitHashSet: set.New[string](),
 			commitStatuses: map[string]commitstatus.Status{
-				"hash1": commitstatus.Verified,
-				"hash3": commitstatus.Addressed,
-				"hash4": commitstatus.Verified,
+				"hash1": commitstatus.Reviewed,
+				"hash3": commitstatus.Approved,
+				"hash4": commitstatus.Reviewed,
 			},
 			now: time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC),
 			expected: formatExpected(`
