@@ -1,6 +1,7 @@
 package types
 
 import (
+	"github.com/jesseduffield/generics/set"
 	"github.com/jesseduffield/lazygit/pkg/commands"
 	"github.com/jesseduffield/lazygit/pkg/commands/git_commands"
 	"github.com/jesseduffield/lazygit/pkg/commands/models"
@@ -391,6 +392,10 @@ type Model struct {
 	Authors map[string]*models.Author
 
 	HashPool *utils.StringPool
+
+	// Hashes of the commits the user has marked as verified; reloaded from
+	// the configured file whenever the commits are refreshed.
+	VerifiedCommits *set.Set[string]
 }
 
 type Mutexes struct {

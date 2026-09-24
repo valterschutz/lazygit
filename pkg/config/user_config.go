@@ -182,6 +182,8 @@ type GuiConfig struct {
 	CommitAuthorLongLength int `yaml:"commitAuthorLongLength"`
 	// Length of commit hash in commits view. 0 shows '*' if NF icons aren't on.
 	CommitHashLength int `yaml:"commitHashLength" jsonschema:"minimum=0"`
+	// Path of a plain text file holding the hashes of the commits you have marked as verified, one per line. Such commits are drawn with a filled circle in the commit graph. A leading ~ is expanded to your home directory. If empty (default), the feature is disabled.
+	VerifiedCommitsFile string `yaml:"verifiedCommitsFile"`
 	// If true, show commit hashes alongside branch names in the branches view.
 	ShowBranchCommitHash bool `yaml:"showBranchCommitHash"`
 	// Whether to show the divergence from the base branch in the branches view.
@@ -913,6 +915,7 @@ func GetDefaultConfigForPlatform(platform string) *UserConfig {
 			CommitAuthorShortLength:             2,
 			CommitAuthorLongLength:              17,
 			CommitHashLength:                    8,
+			VerifiedCommitsFile:                 "",
 			ShowBranchCommitHash:                false,
 			ShowDivergenceFromBaseBranch:        "none",
 			CommandLogSize:                      8,

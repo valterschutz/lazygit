@@ -285,6 +285,12 @@ gui:
   # Length of commit hash in commits view. 0 shows '*' if NF icons aren't on.
   commitHashLength: 8
 
+  # Path of a plain text file holding the hashes of the commits you have marked as
+  # verified, one per line. Such commits are drawn with a filled circle in the
+  # commit graph. A leading ~ is expanded to your home directory. If empty
+  # (default), the feature is disabled.
+  verifiedCommitsFile: ""
+
   # If true, show commit hashes alongside branch names in the branches view.
   showBranchCommitHash: false
 
