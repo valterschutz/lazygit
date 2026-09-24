@@ -10,14 +10,14 @@ import (
 )
 
 // Status is what the reviewer's hunk decisions add up to for one commit:
-// verified once every hunk is accepted or rejected, addressed once no rejected
-// hunk is left unaddressed. A commit with an undecided hunk has no status.
+// reviewed once every hunk is decided, approved once every decision is accepted
+// or fixed. A commit with an undecided hunk has no status.
 type Status int
 
 const (
-	Unverified Status = iota
-	Verified
-	Addressed
+	Unreviewed Status = iota
+	Reviewed
+	Approved
 )
 
 // Store reads the per-commit statuses hunk derives from its review file and
@@ -68,11 +68,11 @@ func (self *Store) Load() (map[string]Status, error) {
 
 func parseStatus(word string) (Status, bool) {
 	switch word {
-	case "verified":
-		return Verified, true
-	case "addressed":
-		return Addressed, true
+	case "reviewed", "verified":
+		return Reviewed, true
+	case "approved", "addressed":
+		return Approved, true
 	default:
-		return Unverified, false
+		return Unreviewed, false
 	}
 }

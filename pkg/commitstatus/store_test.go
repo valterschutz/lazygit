@@ -28,20 +28,29 @@ func TestLoadMissingFile(t *testing.T) {
 
 func TestLoadParsesStatusesAndSkipsWhatItCannotRead(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "commit-status")
-	content := "\nabc verified\n  \ndef  addressed  \nghi unknown\nlonely\n"
+	content := "\nabc reviewed\n  \ndef  approved  \nghi unknown\nlonely\n"
 	assert.NoError(t, os.WriteFile(path, []byte(content), 0o644))
 
 	statuses, err := NewStore(path).Load()
 	assert.NoError(t, err)
-	assert.Equal(t, map[string]Status{"abc": Verified, "def": Addressed}, statuses)
+	assert.Equal(t, map[string]Status{"abc": Reviewed, "def": Approved}, statuses)
+}
+
+func TestLoadParsesLegacyStatusNames(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "commit-status")
+	assert.NoError(t, os.WriteFile(path, []byte("abc verified\ndef addressed\n"), 0o644))
+
+	statuses, err := NewStore(path).Load()
+	assert.NoError(t, err)
+	assert.Equal(t, map[string]Status{"abc": Reviewed, "def": Approved}, statuses)
 }
 
 func TestLoadExpandsTilde(t *testing.T) {
 	t.Setenv("HOME", t.TempDir())
 	path := filepath.Join(os.Getenv("HOME"), "commit-status")
-	assert.NoError(t, os.WriteFile(path, []byte("abc addressed\n"), 0o644))
+	assert.NoError(t, os.WriteFile(path, []byte("abc approved\n"), 0o644))
 
 	statuses, err := NewStore("~/commit-status").Load()
 	assert.NoError(t, err)
-	assert.Equal(t, map[string]Status{"abc": Addressed}, statuses)
+	assert.Equal(t, map[string]Status{"abc": Approved}, statuses)
 }

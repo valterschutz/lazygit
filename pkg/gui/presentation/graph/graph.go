@@ -2,11 +2,12 @@ package graph
 
 import (
 	"cmp"
-	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 	"runtime"
 	"slices"
 	"strings"
 	"sync"
+
+	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 
 	"github.com/jesseduffield/generics/set"
 	"github.com/jesseduffield/lazygit/pkg/commands/models"

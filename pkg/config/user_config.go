@@ -182,7 +182,7 @@ type GuiConfig struct {
 	CommitAuthorLongLength int `yaml:"commitAuthorLongLength"`
 	// Length of commit hash in commits view. 0 shows '*' if NF icons aren't on.
 	CommitHashLength int `yaml:"commitHashLength" jsonschema:"minimum=0"`
-	// Path of the commit-status file hunk writes beside its review file, one `<hash> <status>` per line. A commit is drawn half filled in the commit graph once every hunk is accepted or rejected in hunk (verified), and filled once no rejected hunk is left unaddressed (addressed). A leading ~ is expanded to your home directory. If empty (default), the feature is disabled.
+	// Path of the commit-status file hunk writes beside its review file, one `<hash> <status>` per line. A commit is drawn half filled in the commit graph once every hunk is decided (reviewed), and filled once every decision is accepted or fixed (approved). A leading ~ is expanded to your home directory. If empty (default), the feature is disabled.
 	CommitStatusFile string `yaml:"commitStatusFile"`
 	// If true, show commit hashes alongside branch names in the branches view.
 	ShowBranchCommitHash bool `yaml:"showBranchCommitHash"`

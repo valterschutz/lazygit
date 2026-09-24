@@ -2,9 +2,10 @@ package presentation
 
 import (
 	"fmt"
-	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 	"strings"
 	"time"
+
+	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 
 	"github.com/jesseduffield/generics/set"
 	"github.com/jesseduffield/lazygit/pkg/commands/git_commands"

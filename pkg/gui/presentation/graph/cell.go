@@ -1,24 +1,25 @@
 package graph
 
 import (
-	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 	"io"
 	"sync"
+
+	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 
 	"github.com/gookit/color"
 	"github.com/jesseduffield/lazygit/pkg/gui/style"
 )
 
 // A commit's glyph tells its review status apart: hollow while hunks are
-// undecided, half filled once every hunk is decided but a rejection is open,
-// filled once nothing is left to address.
+// undecided, half filled once every hunk is reviewed but a rejection is open,
+// filled once every hunk is approved.
 const (
-	MergeSymbol           = '◎'
-	CommitSymbol          = '○'
-	VerifiedMergeSymbol   = '◑'
-	VerifiedCommitSymbol  = '◐'
-	AddressedMergeSymbol  = '◉'
-	AddressedCommitSymbol = '●'
+	MergeSymbol          = '◎'
+	CommitSymbol         = '○'
+	ReviewedMergeSymbol  = '◑'
+	ReviewedCommitSymbol = '◐'
+	ApprovedMergeSymbol  = '◉'
+	ApprovedCommitSymbol = '●'
 )
 
 type cellType int
@@ -46,9 +47,9 @@ func (cell *Cell) render(writer io.StringWriter) {
 	case CONNECTION:
 		adjustedFirst = first
 	case COMMIT:
-		adjustedFirst = string(commitSymbol(cell.status, CommitSymbol, VerifiedCommitSymbol, AddressedCommitSymbol))
+		adjustedFirst = string(commitSymbol(cell.status, CommitSymbol, ReviewedCommitSymbol, ApprovedCommitSymbol))
 	case MERGE:
-		adjustedFirst = string(commitSymbol(cell.status, MergeSymbol, VerifiedMergeSymbol, AddressedMergeSymbol))
+		adjustedFirst = string(commitSymbol(cell.status, MergeSymbol, ReviewedMergeSymbol, ApprovedMergeSymbol))
 	}
 
 	var rightStyle *style.TextStyle
@@ -158,14 +159,14 @@ func (cell *Cell) setStatus(status commitstatus.Status) *Cell {
 	return cell
 }
 
-func commitSymbol(status commitstatus.Status, unverified, verified, addressed rune) rune {
+func commitSymbol(status commitstatus.Status, unreviewed, reviewed, approved rune) rune {
 	switch status {
-	case commitstatus.Verified:
-		return verified
-	case commitstatus.Addressed:
-		return addressed
+	case commitstatus.Reviewed:
+		return reviewed
+	case commitstatus.Approved:
+		return approved
 	default:
-		return unverified
+		return unreviewed
 	}
 }
 
