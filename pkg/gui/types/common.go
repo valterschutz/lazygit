@@ -1,11 +1,11 @@
 package types
 
 import (
-	"github.com/jesseduffield/generics/set"
 	"github.com/jesseduffield/lazygit/pkg/commands"
 	"github.com/jesseduffield/lazygit/pkg/commands/git_commands"
 	"github.com/jesseduffield/lazygit/pkg/commands/models"
 	"github.com/jesseduffield/lazygit/pkg/commands/oscommands"
+	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 	"github.com/jesseduffield/lazygit/pkg/common"
 	"github.com/jesseduffield/lazygit/pkg/config"
 	"github.com/jesseduffield/lazygit/pkg/gocui"
@@ -393,9 +393,10 @@ type Model struct {
 
 	HashPool *utils.StringPool
 
-	// Hashes of the commits the user has marked as verified; reloaded from
-	// the configured file whenever the commits are refreshed.
-	VerifiedCommits *set.Set[string]
+	// Status of each reviewed commit, as hunk derives it from the reviewer's
+	// hunk decisions; reloaded from the configured file whenever the commits
+	// are refreshed.
+	CommitStatuses map[string]commitstatus.Status
 }
 
 type Mutexes struct {

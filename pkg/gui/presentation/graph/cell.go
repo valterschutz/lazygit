@@ -1,19 +1,24 @@
 package graph
 
 import (
+	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 	"io"
 	"sync"
 
 	"github.com/gookit/color"
 	"github.com/jesseduffield/lazygit/pkg/gui/style"
-	"github.com/samber/lo"
 )
 
+// A commit's glyph tells its review status apart: hollow while hunks are
+// undecided, half filled once every hunk is decided but a rejection is open,
+// filled once nothing is left to address.
 const (
-	MergeSymbol          = '◎'
-	CommitSymbol         = '○'
-	VerifiedMergeSymbol  = '◉'
-	VerifiedCommitSymbol = '●'
+	MergeSymbol           = '◎'
+	CommitSymbol          = '○'
+	VerifiedMergeSymbol   = '◑'
+	VerifiedCommitSymbol  = '◐'
+	AddressedMergeSymbol  = '◉'
+	AddressedCommitSymbol = '●'
 )
 
 type cellType int
@@ -27,7 +32,7 @@ const (
 type Cell struct {
 	up, down, left, right bool
 	cellType              cellType
-	verified              bool
+	status                commitstatus.Status
 	rightStyle            *style.TextStyle
 	style                 *style.TextStyle
 }
@@ -41,9 +46,9 @@ func (cell *Cell) render(writer io.StringWriter) {
 	case CONNECTION:
 		adjustedFirst = first
 	case COMMIT:
-		adjustedFirst = string(lo.Ternary(cell.verified, VerifiedCommitSymbol, CommitSymbol))
+		adjustedFirst = string(commitSymbol(cell.status, CommitSymbol, VerifiedCommitSymbol, AddressedCommitSymbol))
 	case MERGE:
-		adjustedFirst = string(lo.Ternary(cell.verified, VerifiedMergeSymbol, MergeSymbol))
+		adjustedFirst = string(commitSymbol(cell.status, MergeSymbol, VerifiedMergeSymbol, AddressedMergeSymbol))
 	}
 
 	var rightStyle *style.TextStyle
@@ -148,9 +153,20 @@ func (cell *Cell) setType(cellType cellType) *Cell {
 	return cell
 }
 
-func (cell *Cell) setVerified(verified bool) *Cell {
-	cell.verified = verified
+func (cell *Cell) setStatus(status commitstatus.Status) *Cell {
+	cell.status = status
 	return cell
+}
+
+func commitSymbol(status commitstatus.Status, unverified, verified, addressed rune) rune {
+	switch status {
+	case commitstatus.Verified:
+		return verified
+	case commitstatus.Addressed:
+		return addressed
+	default:
+		return unverified
+	}
 }
 
 func getBoxDrawingChars(up, down, left, right bool) (string, string) {

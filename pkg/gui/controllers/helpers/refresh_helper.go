@@ -22,7 +22,7 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
 	"github.com/jesseduffield/lazygit/pkg/utils"
-	"github.com/jesseduffield/lazygit/pkg/verifiedcommits"
+	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 	"github.com/samber/lo"
 	"github.com/sasha-s/go-deadlock"
 )
@@ -782,7 +782,7 @@ type capturedCommitState struct {
 	filterAuthor         string
 	mainBranches         *git_commands.MainBranches
 	hashPool             *utils.StringPool
-	verifiedCommitsStore *verifiedcommits.Store
+	commitStatusStore    *commitstatus.Store
 	parentIsLocalCommits bool
 }
 
@@ -800,7 +800,7 @@ func (self *RefreshHelper) captureCommitsState() capturedCommitState {
 		filterAuthor:         self.c.Modes().Filtering.GetAuthor(),
 		mainBranches:         self.c.Model().MainBranches,
 		hashPool:             self.c.Model().HashPool,
-		verifiedCommitsStore: verifiedcommits.NewStore(self.c.UserConfig().Gui.VerifiedCommitsFile),
+		commitStatusStore:    commitstatus.NewStore(self.c.UserConfig().Gui.CommitStatusFile),
 		parentIsLocalCommits: parentCtx != nil && parentCtx.GetKey() == context.LOCAL_COMMITS_CONTEXT_KEY,
 	}
 }
@@ -881,7 +881,7 @@ func (self *RefreshHelper) refreshCommitsWithLimit(captured capturedCommitState,
 		return err
 	}
 	workingTreeState := env.git.Status.WorkingTreeState()
-	verifiedCommits, err := captured.verifiedCommitsStore.Load()
+	commitStatuses, err := captured.commitStatusStore.Load()
 	if err != nil {
 		return err
 	}
@@ -897,7 +897,7 @@ func (self *RefreshHelper) refreshCommitsWithLimit(captured capturedCommitState,
 
 		self.c.Model().BisectInfo = bisectInfo
 		self.c.Model().Commits = commits
-		self.c.Model().VerifiedCommits = verifiedCommits
+		self.c.Model().CommitStatuses = commitStatuses
 		self.c.Model().CommitsWereFilteredAtLastRefresh = captured.filterPath != "" || captured.filterAuthor != ""
 		self.RefreshAuthors(commits)
 		self.c.Model().WorkingTreeStateAtLastCommitRefresh = workingTreeState

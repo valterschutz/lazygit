@@ -2,6 +2,7 @@ package presentation
 
 import (
 	"fmt"
+	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 	"strings"
 	"time"
 
@@ -45,7 +46,7 @@ func GetCommitListDisplayStrings(
 	hasRebaseUpdateRefsConfig bool,
 	fullDescription bool,
 	cherryPickedCommitHashSet *set.Set[string],
-	verifiedCommitHashSet *set.Set[string],
+	commitStatuses map[string]commitstatus.Status,
 	diffName string,
 	markedBaseCommit string,
 	timeFormat string,
@@ -104,7 +105,7 @@ func GetCommitListDisplayStrings(
 						graphPipeSets,
 						graphCommits,
 						selectedCommitHashPtr,
-						verifiedCommitHashSet,
+						commitStatuses,
 					)
 					allGraphLines = append(allGraphLines, graphLines...)
 				}
@@ -122,7 +123,7 @@ func GetCommitListDisplayStrings(
 						graphPipeSets,
 						graphCommits,
 						selectedCommitHashPtr,
-						verifiedCommitHashSet,
+						commitStatuses,
 					)
 					allGraphLines = append(allGraphLines, graphLines...)
 				}
@@ -144,7 +145,7 @@ func GetCommitListDisplayStrings(
 				graphPipeSets,
 				graphCommits,
 				selectedCommitHashPtr,
-				verifiedCommitHashSet,
+				commitStatuses,
 			)
 			getGraphLine = func(idx int) string {
 				if idx >= graphOffset {

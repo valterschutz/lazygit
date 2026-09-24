@@ -2,6 +2,7 @@ package graph
 
 import (
 	"cmp"
+	"github.com/jesseduffield/lazygit/pkg/commitstatus"
 	"runtime"
 	"slices"
 	"strings"
@@ -45,13 +46,13 @@ func (self Pipe) right() int16 {
 	return max(self.fromPos, self.toPos)
 }
 
-func RenderCommitGraph(commits []*models.Commit, selectedCommitHashPtr *string, verifiedCommitHashSet *set.Set[string], getStyle func(c *models.Commit) *style.TextStyle) []string {
+func RenderCommitGraph(commits []*models.Commit, selectedCommitHashPtr *string, commitStatuses map[string]commitstatus.Status, getStyle func(c *models.Commit) *style.TextStyle) []string {
 	pipeSets := GetPipeSets(commits, getStyle)
 	if len(pipeSets) == 0 {
 		return nil
 	}
 
-	lines := RenderAux(pipeSets, commits, selectedCommitHashPtr, verifiedCommitHashSet)
+	lines := RenderAux(pipeSets, commits, selectedCommitHashPtr, commitStatuses)
 
 	return lines
 }
@@ -69,7 +70,7 @@ func GetPipeSets(commits []*models.Commit, getStyle func(c *models.Commit) *styl
 	})
 }
 
-func RenderAux(pipeSets [][]Pipe, commits []*models.Commit, selectedCommitHashPtr *string, verifiedCommitHashSet *set.Set[string]) []string {
+func RenderAux(pipeSets [][]Pipe, commits []*models.Commit, selectedCommitHashPtr *string, commitStatuses map[string]commitstatus.Status) []string {
 	maxProcs := runtime.GOMAXPROCS(0)
 
 	// splitting up the rendering of the graph into multiple goroutines allows us to render the graph in parallel
@@ -93,8 +94,8 @@ func RenderAux(pipeSets [][]Pipe, commits []*models.Commit, selectedCommitHashPt
 				if k > 0 {
 					prevCommit = commits[k-1]
 				}
-				verified := verifiedCommitHashSet.Includes(commits[k].Hash())
-				line := renderPipeSet(pipeSet, selectedCommitHashPtr, prevCommit, verified)
+				status := commitStatuses[commits[k].Hash()]
+				line := renderPipeSet(pipeSet, selectedCommitHashPtr, prevCommit, status)
 				innerLines = append(innerLines, line)
 			}
 			chunks[i] = innerLines
@@ -277,7 +278,7 @@ func renderPipeSet(
 	pipes []Pipe,
 	selectedCommitHashPtr *string,
 	prevCommit *models.Commit,
-	verified bool,
+	status commitstatus.Status,
 ) string {
 	maxPos := int16(0)
 	commitPos := int16(0)
@@ -367,7 +368,7 @@ func renderPipeSet(
 		cType = MERGE
 	}
 
-	cells[commitPos].setType(cType).setVerified(verified)
+	cells[commitPos].setType(cType).setStatus(status)
 
 	// using a string builder here for the sake of performance
 	writer := &strings.Builder{}
