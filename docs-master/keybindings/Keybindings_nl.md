@@ -177,7 +177,6 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` a `` | Amend commit attribute | Set/Reset commit author or set co-author. |
 | `` t `` | Revert | Maak een revert commit voor de geselecteerde commit, die de wijzigingen in deze commit terugdraait. |
 | `` T `` | Tag commit | Maak een nieuwe tag die naar de geselecteerde commit wijst. Je wordt gevraagd om een tag naam en optionele omschrijving. |
-| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` <ctrl+l> `` | Log opties weergeven | View options for commit log e.g. changing sort order, hiding the git graph, showing the whole git graph. |
 | `` G `` | Open pull request in browser |  |
 | `` <space> `` | Uitchecken | Check de geselecteerde branch uit als een detached HEAD. |
@@ -189,6 +188,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` g `` | Bekijk reset opties | View reset options (soft/mixed/hard) for resetting onto selected item. |
 | `` C `` | Kopieer commit (cherry-pick) | Mark commit as copied. Then, within the local commits view, you can press `V` to paste (cherry-pick) the copied commit(s) into your checked out branch. At any time you can press `<esc>` to cancel the selection. |
 | `` <ctrl+t> `` | Open externe diff applicatie (git difftool) |  |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | Select commits of current branch |  |
 | `` 0 `` | Focus main view |  |
 | `` <enter> `` | Bekijk gecommite bestanden |  |
@@ -266,6 +266,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` C `` | Kopieer commit (cherry-pick) | Mark commit as copied. Then, within the local commits view, you can press `V` to paste (cherry-pick) the copied commit(s) into your checked out branch. At any time you can press `<esc>` to cancel the selection. |
 | `` <ctrl+r> `` | Reset cherry-picked (gekopieerde) commits selectie |  |
 | `` <ctrl+t> `` | Open externe diff applicatie (git difftool) |  |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | Select commits of current branch |  |
 | `` 0 `` | Focus main view |  |
 | `` <enter> `` | Bekijk commits |  |
@@ -372,6 +373,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` C `` | Kopieer commit (cherry-pick) | Mark commit as copied. Then, within the local commits view, you can press `V` to paste (cherry-pick) the copied commit(s) into your checked out branch. At any time you can press `<esc>` to cancel the selection. |
 | `` <ctrl+r> `` | Reset cherry-picked (gekopieerde) commits selectie |  |
 | `` <ctrl+t> `` | Open externe diff applicatie (git difftool) |  |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | Select commits of current branch |  |
 | `` 0 `` | Focus main view |  |
 | `` <enter> `` | Bekijk gecommite bestanden |  |

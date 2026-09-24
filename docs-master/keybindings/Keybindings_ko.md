@@ -74,6 +74,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` C `` | 커밋을 복사 (cherry-pick) | Mark commit as copied. Then, within the local commits view, you can press `V` to paste (cherry-pick) the copied commit(s) into your checked out branch. At any time you can press `<esc>` to cancel the selection. |
 | `` <ctrl+r> `` | Reset cherry-picked (copied) commits selection |  |
 | `` <ctrl+t> `` | Open external diff tool (git difftool) |  |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | Select commits of current branch |  |
 | `` 0 `` | Focus main view |  |
 | `` <enter> `` | 커밋 보기 |  |
@@ -116,6 +117,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` C `` | 커밋을 복사 (cherry-pick) | Mark commit as copied. Then, within the local commits view, you can press `V` to paste (cherry-pick) the copied commit(s) into your checked out branch. At any time you can press `<esc>` to cancel the selection. |
 | `` <ctrl+r> `` | Reset cherry-picked (copied) commits selection |  |
 | `` <ctrl+t> `` | Open external diff tool (git difftool) |  |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | Select commits of current branch |  |
 | `` 0 `` | Focus main view |  |
 | `` <enter> `` | View selected item's files |  |
@@ -316,7 +318,6 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` a `` | Amend commit attribute | Set/Reset commit author or set co-author. |
 | `` t `` | Revert | Create a revert commit for the selected commit, which applies the selected commit's changes in reverse. |
 | `` T `` | Tag commit | Create a new tag pointing at the selected commit. You'll be prompted to enter a tag name and optional description. |
-| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` <ctrl+l> `` | 로그 메뉴 열기 | View options for commit log e.g. changing sort order, hiding the git graph, showing the whole git graph. |
 | `` G `` | Open pull request in browser |  |
 | `` <space> `` | 체크아웃 | Checkout the selected commit as a detached HEAD. |
@@ -328,6 +329,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` g `` | View reset options | View reset options (soft/mixed/hard) for resetting onto selected item. |
 | `` C `` | 커밋을 복사 (cherry-pick) | Mark commit as copied. Then, within the local commits view, you can press `V` to paste (cherry-pick) the copied commit(s) into your checked out branch. At any time you can press `<esc>` to cancel the selection. |
 | `` <ctrl+t> `` | Open external diff tool (git difftool) |  |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | Select commits of current branch |  |
 | `` 0 `` | Focus main view |  |
 | `` <enter> `` | View selected item's files |  |

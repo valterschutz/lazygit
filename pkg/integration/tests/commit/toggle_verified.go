@@ -6,7 +6,7 @@ import (
 )
 
 var ToggleVerified = NewIntegrationTest(NewIntegrationTestArgs{
-	Description:  "Mark a commit as verified and unmark it again",
+	Description:  "Mark commits as verified and unmark them again, both in the local commits and in the commits of another branch",
 	ExtraCmdArgs: []string{},
 	Skip:         false,
 	SetupConfig: func(config *config.AppConfig) {
@@ -17,6 +17,9 @@ var ToggleVerified = NewIntegrationTest(NewIntegrationTestArgs{
 	SetupRepo: func(shell *Shell) {
 		shell.EmptyCommit("one")
 		shell.EmptyCommit("two")
+		shell.NewBranch("other")
+		shell.EmptyCommit("three")
+		shell.Checkout("master")
 	},
 	Run: func(t *TestDriver, keys config.KeybindingConfig) {
 		t.Views().Commits().
@@ -41,6 +44,43 @@ var ToggleVerified = NewIntegrationTest(NewIntegrationTestArgs{
 			Lines(
 				Contains("○").Contains("two").IsSelected(),
 				Contains("●").Contains("one"),
+			)
+
+		t.Views().Branches().
+			Focus().
+			Lines(
+				Contains("master").IsSelected(),
+				Contains("other"),
+			).
+			SelectNextItem().
+			PressEnter()
+
+		t.Views().SubCommits().
+			IsFocused().
+			Lines(
+				Contains("○").Contains("three").IsSelected(),
+				Contains("○").Contains("two"),
+				Contains("●").Contains("one"),
+			).
+			Press(keys.Commits.ToggleVerified).
+			Lines(
+				Contains("●").Contains("three").IsSelected(),
+				Contains("○").Contains("two"),
+				Contains("●").Contains("one"),
+			).
+			NavigateToLine(Contains("one")).
+			Press(keys.Commits.ToggleVerified).
+			Lines(
+				Contains("●").Contains("three"),
+				Contains("○").Contains("two"),
+				Contains("○").Contains("one").IsSelected(),
+			).
+			PressEscape()
+
+		t.Views().Commits().
+			Lines(
+				Contains("○").Contains("two"),
+				Contains("○").Contains("one"),
 			)
 	},
 })

@@ -129,6 +129,13 @@ func (self *BasicCommitsController) GetKeybindings(opts types.KeybindingsOpts) [
 			Description:       self.c.Tr.OpenDiffTool,
 		},
 		{
+			Keys:              opts.GetKeys(opts.Config.Commits.ToggleVerified),
+			Handler:           self.withItem(self.toggleVerified),
+			GetDisabledReason: self.require(self.singleItemSelected(self.canToggleVerified)),
+			Description:       self.c.Tr.ToggleVerified,
+			Tooltip:           self.c.Tr.ToggleVerifiedTooltip,
+		},
+		{
 			Keys:              opts.GetKeys(opts.Config.Commits.SelectCommitsOfCurrentBranch),
 			Handler:           self.selectCommitsOfCurrentBranch,
 			GetDisabledReason: self.require(self.canSelectCommitsOfCurrentBranch),
@@ -390,6 +397,18 @@ func (self *BasicCommitsController) openDiffTool(commit *models.Commit) error {
 			Staged:      false,
 		}))
 	return err
+}
+
+func (self *BasicCommitsController) toggleVerified(commit *models.Commit) error {
+	return self.c.Helpers().VerifiedCommits.Toggle(commit.Hash())
+}
+
+func (self *BasicCommitsController) canToggleVerified(_ *models.Commit) *types.DisabledReason {
+	if !self.c.Helpers().VerifiedCommits.Enabled() {
+		return &types.DisabledReason{Text: self.c.Tr.VerifiedCommitsFileNotSet}
+	}
+
+	return nil
 }
 
 func (self *BasicCommitsController) canSelectCommitsOfCurrentBranch() *types.DisabledReason {

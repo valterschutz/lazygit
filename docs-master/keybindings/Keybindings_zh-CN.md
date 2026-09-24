@@ -67,6 +67,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` C `` | 复制提交(拣选) | 标记提交为已复制。然后，在本地提交视图中，您可以按 `V` (Cherry-Pick) 将已复制的提交粘贴到已检出的分支中。任何时候都可以按 `<esc>` 来取消选择。 |
 | `` <ctrl+r> `` | 重置已拣选(复制)的提交 |  |
 | `` <ctrl+t> `` | 使用外部差异比较工具(git difftool) |  |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | 选择当前分支的提交 |  |
 | `` 0 `` | 聚焦主视图 |  |
 | `` <enter> `` | 查看提交的文件 |  |
@@ -111,6 +112,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` C `` | 复制提交(拣选) | 标记提交为已复制。然后，在本地提交视图中，您可以按 `V` (Cherry-Pick) 将已复制的提交粘贴到已检出的分支中。任何时候都可以按 `<esc>` 来取消选择。 |
 | `` <ctrl+r> `` | 重置已拣选(复制)的提交 |  |
 | `` <ctrl+t> `` | 使用外部差异比较工具(git difftool) |  |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | 选择当前分支的提交 |  |
 | `` 0 `` | 聚焦主视图 |  |
 | `` <enter> `` | 查看提交 |  |
@@ -142,7 +144,6 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` a `` | 修补提交属性 | 设置或重置提交的作者，或添加其他作者。 |
 | `` t `` | 撤销(Revert) | 为所选提交创建还原提交，这会反向应用所选提交的更改。 |
 | `` T `` | 标签提交 | 创建一个新标签指向所选提交。您可以在弹窗中输入标签名称和描述(可选)。 |
-| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` <ctrl+l> `` | 打开日志菜单 | 查看提交日志的选项，例如更改排序顺序、隐藏 git graph、显示整个 git graph。 |
 | `` G `` | 在浏览器中打开拉取请求 |  |
 | `` <space> `` | 检出 | 检出所选择的提交作为分离HEAD。 |
@@ -154,6 +155,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` g `` | 查看重置选项 | 查看重置选项 (soft/mixed/hard) 用于重置到选择项 |
 | `` C `` | 复制提交(拣选) | 标记提交为已复制。然后，在本地提交视图中，您可以按 `V` (Cherry-Pick) 将已复制的提交粘贴到已检出的分支中。任何时候都可以按 `<esc>` 来取消选择。 |
 | `` <ctrl+t> `` | 使用外部差异比较工具(git difftool) |  |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | 选择当前分支的提交 |  |
 | `` 0 `` | 聚焦主视图 |  |
 | `` <enter> `` | 查看提交的文件 |  |

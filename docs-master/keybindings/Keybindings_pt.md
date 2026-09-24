@@ -181,7 +181,6 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` a `` | Alterar atributo de commit | Definir/Redefinir autor de submissão ou co-autor definido. |
 | `` t `` | Reverter | Crie um commit reverter para o commit selecionado, que aplica as alterações do commit selecionado em reverso. |
 | `` T `` | Etiquetar commit | Create a new tag pointing at the selected commit. You'll be prompted to enter a tag name and optional description. |
-| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` <ctrl+l> `` | View log options | View options for commit log e.g. changing sort order, hiding the git graph, showing the whole git graph. |
 | `` G `` | Open pull request in browser |  |
 | `` <space> `` | Verificar | Checkout the selected commit as a detached HEAD. |
@@ -193,6 +192,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` g `` | Restaurar | Ver opções de redefinição (soft/mixed/hard) para redefinir para o item selecionado. |
 | `` C `` | Copiar (cherry-pick) | Marcar commit como copiado. Então, dentro da visualização local de commits, você pode pressionar `V` para colar (cherry-pick) o(s) commit(s) copiado(s) em seu branch de check-out. A qualquer momento você pode pressionar `<esc>` para cancelar a seleção. |
 | `` <ctrl+t> `` | Abrir ferramenta de diff externa (git difftool) |  |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | Select commits of current branch |  |
 | `` 0 `` | Focar visualização principal |  |
 | `` <enter> `` | Ver arquivos |  |
@@ -316,6 +316,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` C `` | Copiar (cherry-pick) | Marcar commit como copiado. Então, dentro da visualização local de commits, você pode pressionar `V` para colar (cherry-pick) o(s) commit(s) copiado(s) em seu branch de check-out. A qualquer momento você pode pressionar `<esc>` para cancelar a seleção. |
 | `` <ctrl+r> `` | Reset copied (cherry-picked) commits selection |  |
 | `` <ctrl+t> `` | Abrir ferramenta de diff externa (git difftool) |  |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | Select commits of current branch |  |
 | `` 0 `` | Focar visualização principal |  |
 | `` <enter> `` | Ver commits |  |
@@ -381,6 +382,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` C `` | Copiar (cherry-pick) | Marcar commit como copiado. Então, dentro da visualização local de commits, você pode pressionar `V` para colar (cherry-pick) o(s) commit(s) copiado(s) em seu branch de check-out. A qualquer momento você pode pressionar `<esc>` para cancelar a seleção. |
 | `` <ctrl+r> `` | Reset copied (cherry-picked) commits selection |  |
 | `` <ctrl+t> `` | Abrir ferramenta de diff externa (git difftool) |  |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | Select commits of current branch |  |
 | `` 0 `` | Focar visualização principal |  |
 | `` <enter> `` | Ver arquivos |  |

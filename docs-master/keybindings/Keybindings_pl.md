@@ -78,7 +78,6 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` a `` | Popraw atrybut commita | Ustaw/Resetuj autora commita lub ustaw współautora. |
 | `` t `` | Cofnij | Utwórz commit cofający dla wybranego commita, który stosuje zmiany wybranego commita w odwrotnej kolejności. |
 | `` T `` | Otaguj commit | Utwórz nowy tag wskazujący na wybrany commit. Zostaniesz poproszony o wprowadzenie nazwy tagu i opcjonalnego opisu. |
-| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` <ctrl+l> `` | Zobacz opcje logów | Zobacz opcje dla logów commitów, np. zmiana kolejności sortowania, ukrywanie grafu gita, pokazywanie całego grafu gita. |
 | `` G `` | Otwórz żądanie ściągnięcia w przeglądarce |  |
 | `` <space> `` | Przełącz | Przełącz wybrany commit jako odłączoną HEAD. |
@@ -90,6 +89,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` g `` | Reset | Wyświetl opcje resetu (miękki/mieszany/twardy) do wybranego elementu. |
 | `` C `` | Kopiuj (cherry-pick) | Oznacz commit jako skopiowany. Następnie, w widoku lokalnych commitów, możesz nacisnąć `V`, aby wkleić (cherry-pick) skopiowane commity do sprawdzonej gałęzi. W dowolnym momencie możesz nacisnąć `<esc>`, aby anulować zaznaczenie. |
 | `` <ctrl+t> `` | Otwórz zewnętrzne narzędzie różnic (git difftool) |  |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | Select commits of current branch |  |
 | `` 0 `` | Focus main view |  |
 | `` <enter> `` | Wyświetl pliki |  |
@@ -128,6 +128,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` C `` | Kopiuj (cherry-pick) | Oznacz commit jako skopiowany. Następnie, w widoku lokalnych commitów, możesz nacisnąć `V`, aby wkleić (cherry-pick) skopiowane commity do sprawdzonej gałęzi. W dowolnym momencie możesz nacisnąć `<esc>`, aby anulować zaznaczenie. |
 | `` <ctrl+r> `` | Resetuj wybrane (cherry-picked) commity |  |
 | `` <ctrl+t> `` | Otwórz zewnętrzne narzędzie różnic (git difftool) |  |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | Select commits of current branch |  |
 | `` 0 `` | Focus main view |  |
 | `` <enter> `` | Pokaż commity |  |
@@ -351,6 +352,7 @@ _This file is auto-generated. To update, make the changes in the pkg/i18n direct
 | `` C `` | Kopiuj (cherry-pick) | Oznacz commit jako skopiowany. Następnie, w widoku lokalnych commitów, możesz nacisnąć `V`, aby wkleić (cherry-pick) skopiowane commity do sprawdzonej gałęzi. W dowolnym momencie możesz nacisnąć `<esc>`, aby anulować zaznaczenie. |
 | `` <ctrl+r> `` | Resetuj wybrane (cherry-picked) commity |  |
 | `` <ctrl+t> `` | Otwórz zewnętrzne narzędzie różnic (git difftool) |  |
+| `` ! `` | Toggle verified | Mark the selected commit as verified by you, or unmark it. Verified commits are drawn with a filled circle in the commit graph. The list of verified commits is kept in the file set by the gui.verifiedCommitsFile config. |
 | `` * `` | Select commits of current branch |  |
 | `` 0 `` | Focus main view |  |
 | `` <enter> `` | Wyświetl pliki |  |
