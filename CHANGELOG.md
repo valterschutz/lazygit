@@ -7,10 +7,12 @@ newest first. Upstream's own changes arrive by merging `upstream/master`.
 
 - The commit graph draws each commit's review status as hunk derives it from
   the reviewer's per-hunk decisions: hollow while hunks are undecided, half
-  filled (`◐`, `◑` for a merge) once every hunk is accepted or rejected but a
-  rejection is still open, filled (`●`, `◉`) once nothing is left to address.
+  filled (`◐`, `◑` for a merge) once every hunk is reviewed but a rejection is
+  still open, filled (`●`, `◉`) once every hunk is accepted or fixed.
 - The status comes from the `<hash> <status>` file hunk writes beside its
-  review file, named by `gui.commitStatusFile`; lazygit only reads it.
+  review file, named by `gui.commitStatusFile`; lazygit only reads it. The new
+  words are `reviewed` and `approved`, with the old `verified` and `addressed`
+  spellings retained for compatibility.
 - The manual `!` toggle, `gui.verifiedCommitsFile`, and the verified-commits
   store are gone; hunk is the only writer.
 
