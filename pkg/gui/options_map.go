@@ -80,7 +80,7 @@ func (self *OptionsMapMgr) renderContextOptionsMap() {
 			optionsMap = utils.Prepend(optionsMap, bindingInfo{
 				key:         self.c.KeybindingsOpts().Config.Commits.ViewBisectOptions.String(),
 				description: self.c.Tr.ViewBisectOptions,
-				style:       theme.Semantic.Success,
+				style:       theme.Semantic.InProgress,
 			})
 		}
 	}
