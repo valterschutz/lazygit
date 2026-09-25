@@ -9,8 +9,8 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/config"
 	"github.com/jesseduffield/lazygit/pkg/gocui"
 	"github.com/jesseduffield/lazygit/pkg/gui/controllers/helpers"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/jesseduffield/lazygit/pkg/utils"
 	"github.com/samber/lo"
 )
@@ -228,7 +228,7 @@ func (self *HandlerCreator) confirmPrompt(prompt *config.CustomCommandPrompt, ha
 func (self *HandlerCreator) menuPrompt(prompt *config.CustomCommandPrompt, wrappedF func(string) error) error {
 	menuItems := lo.Map(prompt.Options, func(option config.CustomCommandMenuOption, _ int) *types.MenuItem {
 		return &types.MenuItem{
-			LabelColumns: []string{option.Name, style.FgYellow.Sprint(option.Description)},
+			LabelColumns: []string{option.Name, theme.Semantic.SecondaryAccent.Sprint(option.Description)},
 			OnPress: func() error {
 				return wrappedF(option.Value)
 			},

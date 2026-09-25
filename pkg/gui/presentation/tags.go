@@ -6,7 +6,6 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/commands/models"
 	"github.com/jesseduffield/lazygit/pkg/config"
 	"github.com/jesseduffield/lazygit/pkg/gui/presentation/icons"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
 	"github.com/jesseduffield/lazygit/pkg/i18n"
 	"github.com/jesseduffield/lazygit/pkg/theme"
@@ -42,11 +41,11 @@ func getTagDisplayStrings(
 	if icons.IsIconEnabled() {
 		res = append(res, textStyle.Sprint(icons.IconForTag(t)))
 	}
-	descriptionColor := style.FgYellow
+	descriptionColor := theme.Semantic.PrimaryAccent
 	descriptionStr := descriptionColor.Sprint(t.Description())
 	itemOperationStr := ItemOperationToString(itemOperation, tr)
 	if itemOperationStr != "" {
-		descriptionStr = style.FgCyan.Sprint(itemOperationStr+" "+Loader(time.Now(), userConfig.Gui.Spinner)) + " " + descriptionStr
+		descriptionStr = theme.Semantic.InProgress.Sprint(itemOperationStr+" "+Loader(time.Now(), userConfig.Gui.Spinner)) + " " + descriptionStr
 	}
 	res = append(res, textStyle.Sprint(t.Name), descriptionStr)
 	return res

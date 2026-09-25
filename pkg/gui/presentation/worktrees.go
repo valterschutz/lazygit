@@ -3,7 +3,6 @@ package presentation
 import (
 	"github.com/jesseduffield/lazygit/pkg/commands/models"
 	"github.com/jesseduffield/lazygit/pkg/gui/presentation/icons"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/i18n"
 	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/jesseduffield/lazygit/pkg/utils"
@@ -22,15 +21,15 @@ func GetWorktreeDisplayString(tr *i18n.TranslationSet, worktree *models.Worktree
 	textStyle := theme.DefaultTextColor
 
 	current := ""
-	currentColor := style.FgCyan
+	currentColor := theme.Semantic.Text
 	if worktree.IsCurrent {
 		current = "  *"
-		currentColor = style.FgGreen
+		currentColor = theme.Semantic.Focus
 	}
 
 	icon := icons.IconForWorktree(false)
 	if worktree.IsPathMissing {
-		textStyle = style.FgRed
+		textStyle = theme.Semantic.Error
 		icon = icons.IconForWorktree(true)
 	}
 
@@ -47,9 +46,9 @@ func GetWorktreeDisplayString(tr *i18n.TranslationSet, worktree *models.Worktree
 	res = append(res, textStyle.Sprint(name))
 	var branch string
 	if worktree.Branch != "" {
-		branch = style.FgCyan.Sprint(worktree.Branch)
+		branch = theme.Semantic.PrimaryAccent.Sprint(worktree.Branch)
 	} else if worktree.Head != "" {
-		branch = style.FgYellow.Sprint(utils.ResolvePlaceholderString(
+		branch = theme.Semantic.SecondaryAccent.Sprint(utils.ResolvePlaceholderString(
 			tr.HeadDetachedAt, map[string]string{"hash": utils.ShortHash(worktree.Head)}))
 	}
 	res = append(res, branch+mainWorktreeLabel(tr, worktree))
@@ -58,7 +57,7 @@ func GetWorktreeDisplayString(tr *i18n.TranslationSet, worktree *models.Worktree
 
 func mainWorktreeLabel(tr *i18n.TranslationSet, worktree *models.Worktree) string {
 	if worktree.IsMain {
-		return style.FgDefault.Sprint(" " + tr.MainWorktree)
+		return theme.Semantic.Text.Sprint(" " + tr.MainWorktree)
 	}
 	return ""
 }

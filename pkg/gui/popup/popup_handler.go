@@ -7,8 +7,8 @@ import (
 
 	"github.com/jesseduffield/lazygit/pkg/common"
 	"github.com/jesseduffield/lazygit/pkg/gocui"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 )
 
 type PopupHandler struct {
@@ -93,7 +93,7 @@ func (self *PopupHandler) ErrorHandler(err error) error {
 	}
 
 	// Need to set bold here explicitly; otherwise it gets cancelled by the red colouring.
-	coloredMessage := style.FgRed.SetBold().Sprint(strings.TrimSpace(err.Error()))
+	coloredMessage := theme.Semantic.Error.SetBold().Sprint(strings.TrimSpace(err.Error()))
 	if err := self.onErrorFn(); err != nil {
 		return err
 	}

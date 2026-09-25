@@ -3,6 +3,16 @@
 Personal changes to [jesseduffield/lazygit](https://github.com/jesseduffield/lazygit),
 newest first. Upstream's own changes arrive by merging `upstream/master`.
 
+## 2026-09-25: semantic Catppuccin Mocha theme
+
+- Rendering uses one Catppuccin Mocha palette consistently: Mauve for focus,
+  Red for errors and failures, Yellow for in-progress work, Green for success,
+  Blue and Pink for primary and secondary accents, Base for the application
+  background, Mantle for separated surfaces, and Text for normal foregrounds.
+- Statuses, progress indicators, commit and file states, pull requests, menus,
+  authors, and graph highlights now choose colors by meaning instead of using
+  unrelated terminal colors.
+
 ## 2026-09-24: commit review status from hunk
 
 - The commit graph draws each commit's review status as hunk derives it from

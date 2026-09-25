@@ -11,8 +11,8 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/gui/context"
 	"github.com/jesseduffield/lazygit/pkg/gui/context/traits"
 	"github.com/jesseduffield/lazygit/pkg/gui/controllers/helpers"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/jesseduffield/lazygit/pkg/utils"
 	"github.com/samber/lo"
 	"github.com/stefanhaller/git-todo-parser/todo"
@@ -601,7 +601,7 @@ func (self *LocalCommitsController) GetKeybindings(opts types.KeybindingsOpts) [
 			Handler:           opts.Guards.OutsideFilterMode(self.paste),
 			GetDisabledReason: self.require(self.canPaste),
 			Description:       self.c.Tr.PasteCommits,
-			DisplayStyle:      &style.FgCyan,
+			DisplayStyle:      &theme.Semantic.InProgress,
 		},
 		{
 			Keys:              opts.GetKeys(opts.Config.Commits.MarkCommitAsBaseForRebase),

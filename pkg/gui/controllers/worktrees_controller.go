@@ -8,8 +8,8 @@ import (
 
 	"github.com/jesseduffield/lazygit/pkg/commands/models"
 	"github.com/jesseduffield/lazygit/pkg/gui/context"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/jesseduffield/lazygit/pkg/utils"
 	"github.com/samber/lo"
 )
@@ -86,23 +86,23 @@ func (self *WorktreesController) GetOnRenderToMain() func() {
 		} else {
 			main := ""
 			if worktree.IsMain {
-				main = style.FgDefault.Sprintf(" %s", self.c.Tr.MainWorktree)
+				main = theme.Semantic.Text.Sprintf(" %s", self.c.Tr.MainWorktree)
 			}
 
 			missing := ""
 			if worktree.IsPathMissing {
-				missing = style.FgRed.Sprintf(" %s", self.c.Tr.MissingWorktree)
+				missing = theme.Semantic.Error.Sprintf(" %s", self.c.Tr.MissingWorktree)
 			}
 
 			var builder strings.Builder
 			w := tabwriter.NewWriter(&builder, 0, 0, 2, ' ', 0)
-			_, _ = fmt.Fprintf(w, "%s:\t%s%s\n", self.c.Tr.Name, style.FgGreen.Sprint(worktree.Name), main)
-			branch := style.FgYellow.Sprint(worktree.Branch)
+			_, _ = fmt.Fprintf(w, "%s:\t%s%s\n", self.c.Tr.Name, theme.Semantic.PrimaryAccent.Sprint(worktree.Name), main)
+			branch := theme.Semantic.PrimaryAccent.Sprint(worktree.Branch)
 			if worktree.Branch == "" && worktree.Head != "" {
-				branch = style.FgYellow.Sprintf("HEAD detached at %s", utils.ShortHash(worktree.Head))
+				branch = theme.Semantic.SecondaryAccent.Sprintf("HEAD detached at %s", utils.ShortHash(worktree.Head))
 			}
 			_, _ = fmt.Fprintf(w, "%s:\t%s\n", self.c.Tr.Branch, branch)
-			_, _ = fmt.Fprintf(w, "%s:\t%s%s\n", self.c.Tr.Path, style.FgCyan.Sprint(worktree.Path), missing)
+			_, _ = fmt.Fprintf(w, "%s:\t%s%s\n", self.c.Tr.Path, theme.Semantic.SecondaryAccent.Sprint(worktree.Path), missing)
 			_ = w.Flush()
 
 			task = types.NewRenderStringTask(builder.String())

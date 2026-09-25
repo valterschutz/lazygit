@@ -5,8 +5,8 @@ import (
 
 	"github.com/jesseduffield/lazygit/pkg/gocui"
 	"github.com/jesseduffield/lazygit/pkg/gui/context"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 )
 
 func (gui *Gui) handleCreateExtrasMenuPanel() error {
@@ -94,7 +94,7 @@ func (gui *Gui) goToExtrasPanelBottom() error {
 }
 
 func (gui *Gui) getCmdWriter() io.Writer {
-	return &prefixWriter{writer: gui.Views.Extras, prefix: style.FgMagenta.Sprintf("\n\n%s\n", gui.c.Tr.GitOutput)}
+	return &prefixWriter{writer: gui.Views.Extras, prefix: theme.Semantic.SecondaryAccent.Sprintf("\n\n%s\n", gui.c.Tr.GitOutput)}
 }
 
 // Ensures that the first write is preceded by writing a prefix.

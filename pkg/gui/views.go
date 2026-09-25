@@ -93,15 +93,15 @@ func (gui *Gui) createAllViews() error {
 
 	gui.Views.Options.Frame = false
 
-	gui.Views.SearchPrefix.BgColor = gocui.ColorDefault
-	gui.Views.SearchPrefix.FgColor = gocui.ColorCyan
+	gui.Views.SearchPrefix.BgColor = theme.Semantic.GocuiBase
+	gui.Views.SearchPrefix.FgColor = theme.Semantic.GocuiInProgress
 	gui.Views.SearchPrefix.Frame = false
 
 	gui.Views.StatusSpacer1.Frame = false
 	gui.Views.StatusSpacer2.Frame = false
 
-	gui.Views.Search.BgColor = gocui.ColorDefault
-	gui.Views.Search.FgColor = gocui.ColorCyan
+	gui.Views.Search.BgColor = theme.Semantic.GocuiBase
+	gui.Views.Search.FgColor = theme.Semantic.GocuiInProgress
 	gui.Views.Search.Editable = true
 	gui.Views.Search.Frame = false
 	gui.Views.Search.Editor = gocui.EditorFunc(gui.searchEditor)
@@ -119,8 +119,8 @@ func (gui *Gui) createAllViews() error {
 	gui.Views.MergeConflicts.Wrap = false
 	gui.Views.Limit.Wrap = true
 
-	gui.Views.AppStatus.BgColor = gocui.ColorDefault
-	gui.Views.AppStatus.FgColor = gocui.ColorCyan
+	gui.Views.AppStatus.BgColor = theme.Semantic.GocuiBase
+	gui.Views.AppStatus.FgColor = theme.Semantic.GocuiInProgress
 	gui.Views.AppStatus.Visible = false
 	gui.Views.AppStatus.Frame = false
 
@@ -158,15 +158,15 @@ func (gui *Gui) createAllViews() error {
 	gui.Views.Tooltip.Visible = false
 	gui.Views.Tooltip.AutoRenderHyperLinks = true
 
-	gui.Views.Information.BgColor = gocui.ColorDefault
-	gui.Views.Information.FgColor = gocui.ColorGreen
+	gui.Views.Information.BgColor = theme.Semantic.GocuiBase
+	gui.Views.Information.FgColor = theme.Semantic.GocuiText
 	gui.Views.Information.Frame = false
 
 	gui.Views.Extras.Autoscroll = true
 	gui.Views.Extras.Wrap = true
 	gui.Views.Extras.AutoRenderHyperLinks = true
 
-	gui.Views.Snake.FgColor = gocui.ColorGreen
+	gui.Views.Snake.FgColor = theme.Semantic.GocuiSuccess
 
 	return nil
 }

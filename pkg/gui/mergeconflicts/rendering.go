@@ -3,7 +3,6 @@ package mergeconflicts
 import (
 	"bytes"
 
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/jesseduffield/lazygit/pkg/utils"
 )
@@ -18,7 +17,7 @@ func ColoredConflictFile(state *State) string {
 	for i, line := range utils.SplitLines(content) {
 		textStyle := theme.DefaultTextColor
 		if conflict.isMarkerLine(i) {
-			textStyle = style.FgRed
+			textStyle = theme.Semantic.Error
 		}
 
 		if i == conflict.end && len(remainingConflicts) > 0 {

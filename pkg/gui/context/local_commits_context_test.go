@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/jesseduffield/lazygit/pkg/config"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -24,7 +24,7 @@ func TestAddCommitDropIndicator(t *testing.T) {
 		pendingHeader,
 		{
 			Index:   3,
-			Content: style.FgCyan.SetBold().Sprint("━━━━━━ drop here ━━━━━━"),
+			Content: theme.Semantic.Focus.SetBold().Sprint("━━━━━━ drop here ━━━━━━"),
 			Column:  6,
 		},
 		commitsHeader,
@@ -46,7 +46,7 @@ func TestAddMovingCommitsIndicator(t *testing.T) {
 	assert.Equal(t, []*NonModelItem{
 		{
 			Index:   2,
-			Content: style.FgCyan.SetBold().Sprint("━━━━━━ moving commits here two ━━━━━━"),
+			Content: theme.Semantic.Focus.SetBold().Sprint("━━━━━━ moving commits here two ━━━━━━"),
 			Column:  6,
 		},
 	}, items)

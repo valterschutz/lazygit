@@ -7,6 +7,7 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/gocui"
 	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/samber/lo"
 )
 
@@ -57,7 +58,7 @@ func (self *ModeHelper) Statuses() []ModeStatus {
 						self.c.Tr.ShowingGitDiff,
 						"git diff "+strings.Join(self.diffHelper.DiffArgs(), " "),
 					),
-					style.FgMagenta,
+					theme.Semantic.SecondaryAccent,
 				)
 			},
 			CancelLabel: func() string {
@@ -68,7 +69,7 @@ func (self *ModeHelper) Statuses() []ModeStatus {
 		{
 			IsActive: self.c.Git().Patch.PatchBuilder.Active,
 			InfoLabel: func() string {
-				return self.withResetButton(self.c.Tr.BuildingPatch, style.FgYellow.SetBold())
+				return self.withResetButton(self.c.Tr.BuildingPatch, theme.Semantic.InProgress.SetBold())
 			},
 			CancelLabel: func() string {
 				return self.c.Tr.ExitCustomPatchBuilder
@@ -85,7 +86,7 @@ func (self *ModeHelper) Statuses() []ModeStatus {
 						self.c.Tr.FilteringBy,
 						filterContent,
 					),
-					style.FgRed,
+					theme.Semantic.Focus,
 				)
 			},
 			CancelLabel: func() string {
@@ -98,7 +99,7 @@ func (self *ModeHelper) Statuses() []ModeStatus {
 			InfoLabel: func() string {
 				return self.withResetButton(
 					self.c.Tr.MarkedBaseCommitStatus,
-					style.FgCyan,
+					theme.Semantic.Focus,
 				)
 			},
 			CancelLabel: func() string {
@@ -121,7 +122,7 @@ func (self *ModeHelper) Statuses() []ModeStatus {
 						copiedCount,
 						text,
 					),
-					style.FgCyan,
+					theme.Semantic.InProgress,
 				)
 			},
 			CancelLabel: func() string {
@@ -136,7 +137,7 @@ func (self *ModeHelper) Statuses() []ModeStatus {
 			InfoLabel: func() string {
 				workingTreeState := self.c.Git().Status.WorkingTreeState()
 				return self.withResetButton(
-					workingTreeState.Title(self.c.Tr), style.FgYellow,
+					workingTreeState.Title(self.c.Tr), theme.Semantic.InProgress,
 				)
 			},
 			CancelLabel: func() string {
@@ -149,7 +150,7 @@ func (self *ModeHelper) Statuses() []ModeStatus {
 				return self.c.Model().BisectInfo.Started()
 			},
 			InfoLabel: func() string {
-				return self.withResetButton(self.c.Tr.Bisect.Bisecting, style.FgGreen)
+				return self.withResetButton(self.c.Tr.Bisect.Bisecting, theme.Semantic.InProgress)
 			},
 			CancelLabel: func() string {
 				return self.c.Tr.Actions.ResetBisect

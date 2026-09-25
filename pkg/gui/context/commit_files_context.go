@@ -7,8 +7,8 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/gui/filetree"
 	"github.com/jesseduffield/lazygit/pkg/gui/presentation"
 	"github.com/jesseduffield/lazygit/pkg/gui/presentation/icons"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/samber/lo"
 )
 
@@ -33,7 +33,7 @@ func NewCommitFilesContext(c *ContextCommon) *CommitFilesContext {
 
 	getDisplayStrings := func(_ int, _ int) [][]string {
 		if viewModel.Len() == 0 {
-			return [][]string{{style.FgRed.Sprint("(none)")}}
+			return [][]string{{theme.Semantic.Text.Sprint("(none)")}}
 		}
 
 		showFileIcons := icons.IsIconEnabled() && c.UserConfig().Gui.ShowFileIcons

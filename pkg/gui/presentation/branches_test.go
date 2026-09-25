@@ -13,6 +13,7 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
 	"github.com/jesseduffield/lazygit/pkg/i18n"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
 	"github.com/xo/terminfo"
@@ -82,11 +83,11 @@ func TestChecksStatePresentation(t *testing.T) {
 		expectedText  string
 		expectedStyle style.TextStyle
 	}{
-		{name: "success", state: "SUCCESS", expectedIcon: "✓", expectedText: "Passing", expectedStyle: style.FgGreen},
-		{name: "pending", state: "PENDING", expectedIcon: "●", expectedText: "Pending", expectedStyle: style.FgYellow},
-		{name: "failure", state: "FAILURE", expectedIcon: "✗", expectedText: "Failing", expectedStyle: style.FgRed},
-		{name: "error", state: "ERROR", expectedIcon: "!", expectedText: "Error", expectedStyle: style.FgRed},
-		{name: "expected", state: "EXPECTED", expectedIcon: "○", expectedText: "Expected", expectedStyle: style.FgDefault},
+		{name: "success", state: "SUCCESS", expectedIcon: "✓", expectedText: "Passing", expectedStyle: theme.Semantic.Success},
+		{name: "pending", state: "PENDING", expectedIcon: "●", expectedText: "Pending", expectedStyle: theme.Semantic.InProgress},
+		{name: "failure", state: "FAILURE", expectedIcon: "✗", expectedText: "Failing", expectedStyle: theme.Semantic.Error},
+		{name: "error", state: "ERROR", expectedIcon: "!", expectedText: "Error", expectedStyle: theme.Semantic.Error},
+		{name: "expected", state: "EXPECTED", expectedIcon: "○", expectedText: "Expected", expectedStyle: theme.Semantic.Text},
 		{name: "empty", state: "", expectedIcon: "", expectedText: "", expectedStyle: style.Nothing},
 		{name: "unknown", state: "FUTURE_STATE", expectedIcon: "", expectedText: "", expectedStyle: style.Nothing},
 	}

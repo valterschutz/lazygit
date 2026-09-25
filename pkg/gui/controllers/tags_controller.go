@@ -9,6 +9,7 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/gui/context"
 	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/jesseduffield/lazygit/pkg/utils"
 	"github.com/samber/lo"
 )
@@ -129,7 +130,7 @@ func (self *TagsController) getTagInfo(tag *models.Tag) string {
 	}
 
 	if tagIsAnnotated {
-		info := fmt.Sprintf("%s: %s", self.c.Tr.AnnotatedTag, style.AttrBold.Sprint(style.FgYellow.Sprint(tag.Name)))
+		info := fmt.Sprintf("%s: %s", self.c.Tr.AnnotatedTag, style.AttrBold.Sprint(theme.Semantic.PrimaryAccent.Sprint(tag.Name)))
 		output, err := self.c.Git().Tag.ShowAnnotationInfo(tag.Name)
 		if err == nil {
 			info += "\n\n" + strings.TrimRight(filterOutPgpSignature(output), "\n")
@@ -137,7 +138,7 @@ func (self *TagsController) getTagInfo(tag *models.Tag) string {
 		return info
 	}
 
-	return fmt.Sprintf("%s: %s", self.c.Tr.LightweightTag, style.AttrBold.Sprint(style.FgYellow.Sprint(tag.Name)))
+	return fmt.Sprintf("%s: %s", self.c.Tr.LightweightTag, style.AttrBold.Sprint(theme.Semantic.PrimaryAccent.Sprint(tag.Name)))
 }
 
 func filterOutPgpSignature(output string) string {

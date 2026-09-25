@@ -20,8 +20,8 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/gui/filetree"
 	"github.com/jesseduffield/lazygit/pkg/gui/mergeconflicts"
 	"github.com/jesseduffield/lazygit/pkg/gui/presentation"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/jesseduffield/lazygit/pkg/utils"
 	"github.com/samber/lo"
 	"github.com/sasha-s/go-deadlock"
@@ -1862,7 +1862,7 @@ func getGithubBaseRemote(githubRemotes []githubRemoteInfo, configuredRemoteName 
 func (self *RefreshHelper) promptForBaseGithubRepo(githubRemotes []githubRemoteInfo) {
 	menuItems := lo.Map(githubRemotes, func(info githubRemoteInfo, _ int) *types.MenuItem {
 		return &types.MenuItem{
-			LabelColumns: []string{info.remote.Name, style.FgCyan.Sprint(info.serviceInfo.RepoName)},
+			LabelColumns: []string{info.remote.Name, theme.Semantic.PrimaryAccent.Sprint(info.serviceInfo.RepoName)},
 			OnPress: func() error {
 				return self.c.WithWaitingStatus(self.c.Tr.FetchingPullRequests, func(gocui.Task) error {
 					if err := self.c.Git().GitHub.SetConfiguredBaseRemoteName(info.remote.Name); err != nil {

@@ -7,6 +7,7 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/gocui"
 	"github.com/jesseduffield/lazygit/pkg/gui/presentation"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/samber/lo"
 	"github.com/sasha-s/go-deadlock"
 )
@@ -135,9 +136,9 @@ func (self *StatusManager) addStatus(message string, statusType string, kind typ
 	self.nextId++
 	id := self.nextId
 
-	color := gocui.ColorCyan
+	color := theme.Semantic.GocuiInProgress
 	if kind == types.ToastKindError {
-		color = gocui.ColorRed
+		color = theme.Semantic.GocuiError
 	}
 
 	newStatus := appStatus{

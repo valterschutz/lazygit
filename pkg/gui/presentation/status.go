@@ -7,9 +7,9 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/commands/models"
 	"github.com/jesseduffield/lazygit/pkg/config"
 	"github.com/jesseduffield/lazygit/pkg/gui/presentation/icons"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
 	"github.com/jesseduffield/lazygit/pkg/i18n"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 )
 
 func FormatStatus(
@@ -31,7 +31,7 @@ func FormatStatus(
 	}
 
 	if workingTreeState.Any() {
-		status += style.FgYellow.Sprintf("(%s) ", workingTreeState.LowerCaseTitle(tr))
+		status += theme.Semantic.InProgress.Sprintf("(%s) ", workingTreeState.LowerCaseTitle(tr))
 	}
 
 	name := GetBranchTextStyle(currentBranch.Name).Sprint(currentBranch.Name)
@@ -41,7 +41,7 @@ func FormatStatus(
 		if icons.IsIconEnabled() {
 			icon = icons.LINKED_WORKTREE_ICON + " "
 		}
-		repoName = fmt.Sprintf("%s(%s%s)", repoName, icon, style.FgCyan.Sprint(linkedWorktreeName))
+		repoName = fmt.Sprintf("%s(%s%s)", repoName, icon, theme.Semantic.PrimaryAccent.Sprint(linkedWorktreeName))
 	}
 	status += fmt.Sprintf("%s → %s", repoName, name)
 

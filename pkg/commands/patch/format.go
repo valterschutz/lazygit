@@ -82,7 +82,7 @@ func (self *patchPresenter) format() string {
 		appendLine(
 			self.formatLineAux(
 				hunk.formatHeaderStart(),
-				style.FgCyan,
+				theme.Semantic.PrimaryAccent,
 				false,
 			) +
 				// we're splitting the line into two parts: the diff header and the context
@@ -111,9 +111,9 @@ func (self *patchPresenter) format() string {
 func (self *patchPresenter) patchLineStyle(patchLine *PatchLine) style.TextStyle {
 	switch patchLine.Kind {
 	case ADDITION:
-		return style.FgGreen
+		return theme.Semantic.Success
 	case DELETION:
-		return style.FgRed
+		return theme.Semantic.Error
 	default:
 		return theme.DefaultTextColor
 	}
@@ -135,7 +135,7 @@ func (self *patchPresenter) formatLineAux(str string, textStyle style.TextStyle,
 
 	firstCharStyle := textStyle
 	if included {
-		firstCharStyle = firstCharStyle.MergeStyle(style.BgGreen)
+		firstCharStyle = firstCharStyle.MergeStyle(theme.Semantic.SuccessBackground)
 	}
 
 	if len(str) < 2 {

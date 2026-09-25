@@ -15,8 +15,8 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/env"
 	"github.com/jesseduffield/lazygit/pkg/gui/context"
 	"github.com/jesseduffield/lazygit/pkg/gui/presentation/icons"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/jesseduffield/lazygit/pkg/utils"
 	"github.com/samber/lo"
 )
@@ -288,8 +288,8 @@ func (self *ReposHelper) recentRepoMenuItem(entry recentRepoEntry, widths recent
 	return &types.MenuItem{
 		LabelColumns: []string{
 			displayedName,
-			style.FgCyan.Sprint(displayedBranch),
-			style.FgMagenta.Sprint(displayedDir),
+			theme.Semantic.PrimaryAccent.Sprint(displayedBranch),
+			theme.Semantic.SecondaryAccent.Sprint(displayedDir),
 		},
 		// Filtering matches the full text, including the parts that the columns
 		// above truncate or leave out.

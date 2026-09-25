@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/snake"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 )
 
 type SnakeHelper struct {
@@ -62,7 +62,7 @@ func (self *SnakeHelper) drawSnakeGame(cells [][]snake.CellType) string {
 			case snake.Snake:
 				writer.WriteString("█")
 			case snake.Food:
-				writer.WriteString(style.FgMagenta.Sprint("█"))
+				writer.WriteString(theme.Semantic.SecondaryAccent.Sprint("█"))
 			}
 		}
 
