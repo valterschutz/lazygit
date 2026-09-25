@@ -11,8 +11,8 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/commands/models"
 	"github.com/jesseduffield/lazygit/pkg/config"
 	"github.com/jesseduffield/lazygit/pkg/gui/context"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/samber/lo"
 )
 
@@ -363,7 +363,7 @@ func (self *WorkingTreeHelper) CreateMergeConflictMenu(selectedFilepaths []strin
 		return err
 	}
 
-	cmdColor := style.FgBlue
+	cmdColor := theme.Semantic.PrimaryAccent
 	return self.c.Menu(types.CreateMenuOptions{
 		Title: self.c.Tr.MergeConflictOptionsTitle,
 		Items: []*types.MenuItem{

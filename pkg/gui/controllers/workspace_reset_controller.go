@@ -12,12 +12,13 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/gui/controllers/helpers"
 	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 )
 
 // this is in its own file given that the workspace controller file is already quite long
 
 func (self *FilesController) createResetMenu() error {
-	red := style.FgRed
+	red := theme.Semantic.Error
 
 	nukeStr := "git reset --hard HEAD && git clean -fd"
 	if len(self.c.Model().Submodules) > 0 {
@@ -194,11 +195,11 @@ func (self *FilesController) Explode(v *gocui.View, onDone func()) {
 	width := v.InnerWidth()
 	height := v.InnerHeight()
 	styles := []style.TextStyle{
-		style.FgLightWhite.SetBold(),
-		style.FgYellow.SetBold(),
-		style.FgRed.SetBold(),
-		style.FgBlue.SetBold(),
-		style.FgBlack.SetBold(),
+		theme.Semantic.Text.SetBold(),
+		theme.Semantic.InProgress.SetBold(),
+		theme.Semantic.Error.SetBold(),
+		theme.Semantic.PrimaryAccent.SetBold(),
+		theme.Semantic.SecondaryAccent.SetBold(),
 	}
 
 	self.c.OnWorker(func(_ gocui.Task) error {

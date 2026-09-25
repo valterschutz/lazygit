@@ -72,7 +72,7 @@ func (self *OptionsMapMgr) renderContextOptionsMap() {
 			optionsMap = utils.Prepend(optionsMap, bindingInfo{
 				key:         self.c.KeybindingsOpts().Config.Commits.PasteCommits.String(),
 				description: self.c.Tr.PasteCommits,
-				style:       style.FgCyan,
+				style:       theme.Semantic.InProgress,
 			})
 		}
 
@@ -80,7 +80,7 @@ func (self *OptionsMapMgr) renderContextOptionsMap() {
 			optionsMap = utils.Prepend(optionsMap, bindingInfo{
 				key:         self.c.KeybindingsOpts().Config.Commits.ViewBisectOptions.String(),
 				description: self.c.Tr.ViewBisectOptions,
-				style:       style.FgGreen,
+				style:       theme.Semantic.Success,
 			})
 		}
 	}
@@ -90,7 +90,7 @@ func (self *OptionsMapMgr) renderContextOptionsMap() {
 		optionsMap = utils.Prepend(optionsMap, bindingInfo{
 			key:         self.c.KeybindingsOpts().Config.Universal.CreateRebaseOptionsMenu.String(),
 			description: state.OptionsMapTitle(self.c.Tr),
-			style:       style.FgYellow,
+			style:       theme.Semantic.InProgress,
 		})
 	}
 
@@ -98,7 +98,7 @@ func (self *OptionsMapMgr) renderContextOptionsMap() {
 		optionsMap = utils.Prepend(optionsMap, bindingInfo{
 			key:         self.c.KeybindingsOpts().Config.Universal.CreatePatchOptionsMenu.String(),
 			description: self.c.Tr.ViewPatchOptions,
-			style:       style.FgYellow,
+			style:       theme.Semantic.InProgress,
 		})
 	}
 

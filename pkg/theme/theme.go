@@ -42,7 +42,7 @@ var (
 
 	OptionsFgColor = style.New()
 
-	DiffTerminalColor = style.FgMagenta
+	DiffTerminalColor = Semantic.SecondaryAccent
 
 	UnstagedChangesColor = style.New()
 )

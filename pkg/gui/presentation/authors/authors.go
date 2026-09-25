@@ -1,13 +1,11 @@
 package authors
 
 import (
-	"crypto/md5"
 	"strings"
 
-	"github.com/gookit/color"
 	"github.com/jesseduffield/lazygit/pkg/gui/style"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/jesseduffield/lazygit/pkg/utils"
-	"github.com/lucasb-eyer/go-colorful"
 	"github.com/rivo/uniseg"
 )
 
@@ -83,30 +81,9 @@ func AuthorStyle(authorName string) *style.TextStyle {
 		return value
 	}
 
-	value := trueColorStyle(authorName)
-
+	value := theme.Semantic.SecondaryAccent
 	authorStyleCache[authorName] = &value
-
 	return &value
-}
-
-func trueColorStyle(str string) style.TextStyle {
-	hash := md5.Sum([]byte(str))
-	c := colorful.Hsl(randFloat(hash[0:4])*360.0, 0.6+0.4*randFloat(hash[4:8]), 0.4+randFloat(hash[8:12])*0.2)
-
-	return style.New().SetFg(style.NewRGBColor(color.RGB(uint8(c.R*255), uint8(c.G*255), uint8(c.B*255))))
-}
-
-func randFloat(hash []byte) float64 {
-	return float64(randInt(hash, 100)) / 100
-}
-
-func randInt(hash []byte, max int) int {
-	sum := 0
-	for _, b := range hash {
-		sum = (sum + int(b)) % max
-	}
-	return sum
 }
 
 func getInitials(authorName string) string {

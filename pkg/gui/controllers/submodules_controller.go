@@ -8,8 +8,8 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/commands/models"
 	"github.com/jesseduffield/lazygit/pkg/gocui"
 	"github.com/jesseduffield/lazygit/pkg/gui/context"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/jesseduffield/lazygit/pkg/utils"
 )
 
@@ -114,9 +114,9 @@ func (self *SubmodulesController) GetOnRenderToMain() func() {
 			} else {
 				prefix := fmt.Sprintf(
 					"Name: %s\nPath: %s\nUrl:  %s\n\n",
-					style.FgGreen.Sprint(submodule.FullName()),
-					style.FgYellow.Sprint(submodule.FullPath()),
-					style.FgCyan.Sprint(submodule.Url),
+					theme.Semantic.PrimaryAccent.Sprint(submodule.FullName()),
+					theme.Semantic.SecondaryAccent.Sprint(submodule.FullPath()),
+					theme.Semantic.PrimaryAccent.Sprint(submodule.Url),
 				)
 
 				file := self.c.Helpers().WorkingTree.FileForSubmodule(submodule)
@@ -220,7 +220,7 @@ func (self *SubmodulesController) openBulkActionsMenu() error {
 		Title: self.c.Tr.BulkSubmoduleOptions,
 		Items: []*types.MenuItem{
 			{
-				LabelColumns: []string{self.c.Tr.BulkInitSubmodules, style.FgGreen.Sprint(self.c.Git().Submodule.BulkInitCmdObj().ToString())},
+				LabelColumns: []string{self.c.Tr.BulkInitSubmodules, theme.Semantic.PrimaryAccent.Sprint(self.c.Git().Submodule.BulkInitCmdObj().ToString())},
 				OnPress: func() error {
 					return self.c.WithWaitingStatus(self.c.Tr.RunningCommand, func(gocui.Task) error {
 						self.c.LogAction(self.c.Tr.Actions.BulkInitialiseSubmodules)
@@ -236,7 +236,7 @@ func (self *SubmodulesController) openBulkActionsMenu() error {
 				Keys: menuKey('i'),
 			},
 			{
-				LabelColumns: []string{self.c.Tr.BulkUpdateSubmodules, style.FgYellow.Sprint(self.c.Git().Submodule.BulkUpdateCmdObj().ToString())},
+				LabelColumns: []string{self.c.Tr.BulkUpdateSubmodules, theme.Semantic.PrimaryAccent.Sprint(self.c.Git().Submodule.BulkUpdateCmdObj().ToString())},
 				OnPress: func() error {
 					return self.c.WithWaitingStatus(self.c.Tr.RunningCommand, func(gocui.Task) error {
 						self.c.LogAction(self.c.Tr.Actions.BulkUpdateSubmodules)
@@ -251,7 +251,7 @@ func (self *SubmodulesController) openBulkActionsMenu() error {
 				Keys: menuKey('u'),
 			},
 			{
-				LabelColumns: []string{self.c.Tr.BulkUpdateRecursiveSubmodules, style.FgYellow.Sprint(self.c.Git().Submodule.BulkUpdateRecursivelyCmdObj().ToString())},
+				LabelColumns: []string{self.c.Tr.BulkUpdateRecursiveSubmodules, theme.Semantic.PrimaryAccent.Sprint(self.c.Git().Submodule.BulkUpdateRecursivelyCmdObj().ToString())},
 				OnPress: func() error {
 					return self.c.WithWaitingStatus(self.c.Tr.RunningCommand, func(gocui.Task) error {
 						self.c.LogAction(self.c.Tr.Actions.BulkUpdateRecursiveSubmodules)
@@ -266,7 +266,7 @@ func (self *SubmodulesController) openBulkActionsMenu() error {
 				Keys: menuKey('r'),
 			},
 			{
-				LabelColumns: []string{self.c.Tr.BulkDeinitSubmodules, style.FgRed.Sprint(self.c.Git().Submodule.BulkDeinitCmdObj().ToString())},
+				LabelColumns: []string{self.c.Tr.BulkDeinitSubmodules, theme.Semantic.Error.Sprint(self.c.Git().Submodule.BulkDeinitCmdObj().ToString())},
 				OnPress: func() error {
 					return self.c.WithWaitingStatus(self.c.Tr.RunningCommand, func(gocui.Task) error {
 						self.c.LogAction(self.c.Tr.Actions.BulkDeinitialiseSubmodules)

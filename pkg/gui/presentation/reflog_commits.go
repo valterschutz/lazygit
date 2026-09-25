@@ -50,7 +50,7 @@ func reflogHashColor(cherryPicked, diffed bool) style.TextStyle {
 		return theme.DiffTerminalColor
 	}
 
-	hashColor := style.FgBlue
+	hashColor := theme.Semantic.PrimaryAccent
 	if cherryPicked {
 		hashColor = theme.CherryPickedCommitTextStyle
 	}
@@ -76,7 +76,7 @@ func getFullDescriptionDisplayStringsForReflogCommit(c *models.Commit, attrs ref
 		name = emoji.Sprint(name)
 	}
 
-	date := style.FgMagenta.Sprint(
+	date := theme.Semantic.SecondaryAccent.Sprint(
 		utils.UnixToDateSmart(attrs.now, c.UnixTimestamp, attrs.timeFormat, attrs.shortTimeFormat))
 
 	return []string{

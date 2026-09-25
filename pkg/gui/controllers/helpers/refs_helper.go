@@ -9,8 +9,8 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/commands/models"
 	"github.com/jesseduffield/lazygit/pkg/gocui"
 	"github.com/jesseduffield/lazygit/pkg/gui/context"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/jesseduffield/lazygit/pkg/utils"
 	"github.com/samber/lo"
 )
@@ -241,7 +241,7 @@ func (self *RefsHelper) CreateSortOrderMenu(sortOptionsOrder []string, menuPromp
 		return &types.MenuItem{
 			LabelColumns: []string{
 				opt.label,
-				style.FgYellow.Sprint(opt.description),
+				theme.Semantic.SecondaryAccent.Sprint(opt.description),
 			},
 			OnPress: func() error {
 				return onSelected(opt.sortOrder)
@@ -275,7 +275,7 @@ func (self *RefsHelper) CreateGitResetMenu(name string, ref string) error {
 		return &types.MenuItem{
 			LabelColumns: []string{
 				row.label,
-				style.FgRed.Sprintf("reset --%s %s", row.strength, name),
+				theme.Semantic.Error.Sprintf("reset --%s %s", row.strength, name),
 			},
 			OnPress: func() error {
 				return self.c.ConfirmIf(row.strength == "hard" && IsWorkingTreeDirtyExceptSubmodules(self.c.Model().Files, self.c.Model().Submodules),

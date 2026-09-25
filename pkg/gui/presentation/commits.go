@@ -461,7 +461,7 @@ func displayCommit(
 
 	descriptionString := ""
 	if fullDescription {
-		descriptionString = style.FgBlue.Sprint(
+		descriptionString = theme.Semantic.PrimaryAccent.Sprint(
 			utils.UnixToDateSmart(now, commit.UnixTimestamp, timeFormat, shortTimeFormat),
 		)
 	}
@@ -474,7 +474,7 @@ func displayCommit(
 	tagString := ""
 	if fullDescription {
 		if commit.ExtraInfo != "" {
-			tagString = style.FgMagenta.SetBold().Sprint(commit.ExtraInfo) + " "
+			tagString = theme.Semantic.SecondaryAccent.SetBold().Sprint(commit.ExtraInfo) + " "
 		}
 	} else {
 		if len(commit.Tags) > 0 {
@@ -486,7 +486,7 @@ func displayCommit(
 			commit.Status != models.StatusMerged &&
 			// Don't show branch head on a "pick" todo if the rebase.updateRefs config is on
 			!(commit.IsTODO() && hasRebaseUpdateRefsConfig) {
-			tagString = style.FgCyan.SetBold().Sprint(
+			tagString = theme.Semantic.PrimaryAccent.SetBold().Sprint(
 				lo.Ternary(icons.IsIconEnabled(), icons.BRANCH_ICON, "*") + " " + tagString)
 		}
 	}
@@ -501,13 +501,13 @@ func displayCommit(
 
 	mark := ""
 	if commit.Status == models.StatusConflicted {
-		youAreHere := style.FgRed.Sprintf("<-- %s ---", common.Tr.ConflictLabel)
+		youAreHere := theme.Semantic.Error.Sprintf("<-- %s ---", common.Tr.ConflictLabel)
 		mark = fmt.Sprintf("%s ", youAreHere)
 	} else if isMarkedBaseCommit {
-		rebaseFromHere := style.FgYellow.Sprint(common.Tr.MarkedCommitMarker)
+		rebaseFromHere := theme.Semantic.Focus.Sprint(common.Tr.MarkedCommitMarker)
 		mark = fmt.Sprintf("%s ", rebaseFromHere)
 	} else if !willBeRebased {
-		willBeRebased := style.FgYellow.Sprint("✓")
+		willBeRebased := theme.Semantic.InProgress.Sprint("✓")
 		mark = fmt.Sprintf("%s ", willBeRebased)
 	}
 
@@ -535,21 +535,21 @@ func displayCommit(
 func getBisectStatusColor(status BisectStatus) style.TextStyle {
 	switch status {
 	case BisectStatusNone:
-		return style.FgBlack
+		return theme.Semantic.Text
 	case BisectStatusNew:
-		return style.FgRed
+		return theme.Semantic.Error
 	case BisectStatusOld:
-		return style.FgGreen
+		return theme.Semantic.Success
 	case BisectStatusSkipped:
-		return style.FgYellow
+		return theme.Semantic.SecondaryAccent
 	case BisectStatusCurrent:
-		return style.FgMagenta
+		return theme.Semantic.Focus
 	case BisectStatusCandidate:
-		return style.FgBlue
+		return theme.Semantic.PrimaryAccent
 	}
 
 	// shouldn't land here
-	return style.FgWhite
+	return theme.Semantic.Text
 }
 
 func getHashColor(
@@ -567,15 +567,15 @@ func getHashColor(
 	hashColor := theme.DefaultTextColor
 	switch commit.Status {
 	case models.StatusUnpushed:
-		hashColor = style.FgRed
-	case models.StatusPushed:
-		hashColor = style.FgYellow
-	case models.StatusMerged:
-		hashColor = style.FgGreen
-	case models.StatusRebasing, models.StatusCherryPickingOrReverting, models.StatusConflicted:
-		hashColor = style.FgBlue
+		hashColor = theme.Semantic.PrimaryAccent
+	case models.StatusPushed, models.StatusMerged:
+		hashColor = theme.Semantic.Success
+	case models.StatusRebasing, models.StatusCherryPickingOrReverting:
+		hashColor = theme.Semantic.InProgress
+	case models.StatusConflicted:
+		hashColor = theme.Semantic.Error
 	case models.StatusReflog:
-		hashColor = style.FgBlue
+		hashColor = theme.Semantic.PrimaryAccent
 	default:
 	}
 
@@ -584,7 +584,7 @@ func getHashColor(
 	} else if cherryPickedCommitHashSet.Includes(commit.Hash()) {
 		hashColor = theme.CherryPickedCommitTextStyle
 	} else if commit.Divergence == models.DivergenceRight && commit.Status != models.StatusMerged {
-		hashColor = style.FgBlue
+		hashColor = theme.Semantic.PrimaryAccent
 	}
 
 	return hashColor
@@ -592,19 +592,19 @@ func getHashColor(
 
 func actionColorMap(action todo.TodoCommand, status models.CommitStatus) style.TextStyle {
 	if status == models.StatusConflicted {
-		return style.FgRed
+		return theme.Semantic.Error
 	}
 
 	switch action {
 	case todo.Pick:
-		return style.FgCyan
+		return theme.Semantic.PrimaryAccent
 	case todo.Drop:
-		return style.FgRed
+		return theme.Semantic.Error
 	case todo.Edit:
-		return style.FgGreen
+		return theme.Semantic.Focus
 	case todo.Fixup:
-		return style.FgMagenta
+		return theme.Semantic.SecondaryAccent
 	default:
-		return style.FgYellow
+		return theme.Semantic.PrimaryAccent
 	}
 }

@@ -8,6 +8,7 @@ import (
 	"sync"
 
 	"github.com/jesseduffield/lazygit/pkg/commitstatus"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 
 	"github.com/jesseduffield/generics/set"
 	"github.com/jesseduffield/lazygit/pkg/commands/models"
@@ -34,7 +35,7 @@ type Pipe struct {
 }
 
 var (
-	highlightStyle      = style.FgLightWhite.SetBold()
+	highlightStyle      = theme.Semantic.Focus.SetBold()
 	EmptyTreeCommitHash = models.EmptyTreeCommitHash
 	StartCommitHash     = "START"
 )
@@ -63,7 +64,7 @@ func GetPipeSets(commits []*models.Commit, getStyle func(c *models.Commit) *styl
 		return nil
 	}
 
-	pipes := []Pipe{{fromPos: 0, toPos: 0, fromHash: &StartCommitHash, toHash: commits[0].HashPtr(), kind: STARTS, style: &style.FgDefault}}
+	pipes := []Pipe{{fromPos: 0, toPos: 0, fromHash: &StartCommitHash, toHash: commits[0].HashPtr(), kind: STARTS, style: &theme.Semantic.Text}}
 
 	return lo.Map(commits, func(commit *models.Commit, _ int) []Pipe {
 		pipes = getNextPipes(pipes, commit, getStyle)
@@ -299,7 +300,7 @@ func renderPipeSet(
 	isMerge := startCount > 1
 
 	cells := lo.Map(lo.Range(int(maxPos)+1), func(i int, _ int) *Cell {
-		return &Cell{cellType: CONNECTION, style: &style.FgDefault}
+		return &Cell{cellType: CONNECTION, style: &theme.Semantic.Text}
 	})
 
 	renderPipe := func(pipe *Pipe, style *style.TextStyle, overrideRightStyle bool) {

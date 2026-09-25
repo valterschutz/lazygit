@@ -6,8 +6,8 @@ import (
 
 	"github.com/jesseduffield/lazygit/pkg/config"
 	"github.com/jesseduffield/lazygit/pkg/gocui"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/jesseduffield/lazygit/pkg/utils"
 	"github.com/samber/lo"
 )
@@ -178,12 +178,12 @@ func (self *MenuViewModel) GetDisplayStrings(_ int, _ int) [][]string {
 	return lo.Map(menuItems, func(item *types.MenuItem, _ int) []string {
 		displayStrings := item.LabelColumns
 		if item.DisabledReason != nil {
-			displayStrings[0] = style.FgDefault.SetStrikethrough().Sprint(displayStrings[0])
+			displayStrings[0] = theme.Semantic.Text.SetStrikethrough().Sprint(displayStrings[0])
 		}
 
 		keyLabel := ""
 		if len(item.Keys) > 0 {
-			keyLabel = style.FgCyan.Sprint(config.LabelForKey(item.Keys[0]))
+			keyLabel = theme.Semantic.PrimaryAccent.Sprint(config.LabelForKey(item.Keys[0]))
 		}
 
 		checkMark := ""
@@ -237,7 +237,7 @@ func (self *MenuViewModel) GetNonModelItems() []*NonModelItem {
 			result = append(result, &NonModelItem{
 				Index:   i,
 				Column:  1,
-				Content: style.FgGreen.SetBold().Sprint(formatListSectionHeader(menuItem.Section.Title)),
+				Content: theme.Semantic.PrimaryAccent.SetBold().Sprint(formatListSectionHeader(menuItem.Section.Title)),
 			})
 			prevSection = menuItem.Section
 		}

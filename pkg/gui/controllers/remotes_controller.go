@@ -10,8 +10,8 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/commands/models"
 	"github.com/jesseduffield/lazygit/pkg/gocui"
 	"github.com/jesseduffield/lazygit/pkg/gui/context"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/jesseduffield/lazygit/pkg/utils"
 )
 
@@ -106,7 +106,7 @@ func (self *RemotesController) GetOnRenderToMain() func() {
 			if remote == nil {
 				task = types.NewRenderStringTask("No remotes")
 			} else {
-				content := fmt.Sprintf("%s\nUrls:\n%s", style.FgGreen.Sprint(remote.Name), strings.Join(remote.Urls, "\n"))
+				content := fmt.Sprintf("%s\nUrls:\n%s", theme.Semantic.PrimaryAccent.Sprint(remote.Name), strings.Join(remote.Urls, "\n"))
 				if len(remote.PushUrls) > 0 {
 					content += fmt.Sprintf("\nPush Urls:\n%s", strings.Join(remote.PushUrls, "\n"))
 				}

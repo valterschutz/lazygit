@@ -132,9 +132,9 @@ func getFileLine(
 	indentation := strings.Repeat("  ", visualDepth)
 
 	if hasStagedChanges && !hasUnstagedChanges {
-		nameColor = style.FgGreen
+		nameColor = theme.Semantic.Success
 	} else if hasStagedChanges {
-		nameColor = style.FgYellow
+		nameColor = theme.Semantic.InProgress
 	} else {
 		nameColor = theme.DefaultTextColor
 	}
@@ -183,7 +183,7 @@ func getFileLine(
 
 func formatFileStatus(file *models.File, restColor style.TextStyle) string {
 	firstChar := file.ShortStatus[0:1]
-	firstCharCl := style.FgGreen
+	firstCharCl := theme.Semantic.Success
 	switch firstChar {
 	case "?":
 		firstCharCl = theme.UnstagedChangesColor
@@ -204,14 +204,14 @@ func formatLineChanges(linesAdded, linesDeleted int) string {
 	output := ""
 
 	if linesAdded != 0 {
-		output += style.FgGreen.Sprintf("+%d", linesAdded)
+		output += theme.Semantic.Success.Sprintf("+%d", linesAdded)
 	}
 
 	if linesDeleted != 0 {
 		if output != "" {
 			output += " "
 		}
-		output += style.FgRed.Sprintf("-%d", linesDeleted)
+		output += theme.Semantic.Error.Sprintf("-%d", linesDeleted)
 	}
 
 	return output
@@ -237,9 +237,9 @@ func getCommitFileLine(
 
 	switch status {
 	case patch.WHOLE:
-		nameColor = style.FgGreen
+		nameColor = theme.Semantic.Success
 	case patch.PART:
-		nameColor = style.FgYellow
+		nameColor = theme.Semantic.InProgress
 	case patch.UNSELECTED:
 		nameColor = theme.DefaultTextColor
 	}
@@ -285,15 +285,15 @@ func getCommitFileLine(
 func getColorForChangeStatus(changeStatus string) style.TextStyle {
 	switch changeStatus {
 	case "A":
-		return style.FgGreen
+		return theme.Semantic.Success
 	case "M", "R":
-		return style.FgYellow
+		return theme.Semantic.PrimaryAccent
 	case "D":
 		return theme.UnstagedChangesColor
 	case "C":
-		return style.FgCyan
+		return theme.Semantic.PrimaryAccent
 	case "T":
-		return style.FgMagenta
+		return theme.Semantic.SecondaryAccent
 	default:
 		return theme.DefaultTextColor
 	}

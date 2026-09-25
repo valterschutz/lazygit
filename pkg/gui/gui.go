@@ -40,7 +40,6 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/gui/presentation/icons"
 	"github.com/jesseduffield/lazygit/pkg/gui/services/custom_commands"
 	"github.com/jesseduffield/lazygit/pkg/gui/status"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
 	"github.com/jesseduffield/lazygit/pkg/i18n"
 	"github.com/jesseduffield/lazygit/pkg/integration/components"
@@ -1117,7 +1116,7 @@ func (gui *Gui) runSubprocess(cmdObj *oscommands.CmdObj) error {
 		if !echoed {
 			printSubprocessCommand(subprocess.Args)
 		}
-		fmt.Fprintf(os.Stdout, "\n%s", style.FgGreen.Sprint(gui.Tr.PressEnterToReturn))
+		fmt.Fprintf(os.Stdout, "\n%s", theme.Semantic.PrimaryAccent.Sprint(gui.Tr.PressEnterToReturn))
 
 		// scan to buffer to prevent run unintentional operations when TUI resumes.
 		var buffer string
@@ -1128,7 +1127,7 @@ func (gui *Gui) runSubprocess(cmdObj *oscommands.CmdObj) error {
 }
 
 func printSubprocessCommand(args []string) {
-	fmt.Fprintf(os.Stdout, "\n%s\n\n", style.FgBlue.Sprint("+ "+strings.Join(args, " ")))
+	fmt.Fprintf(os.Stdout, "\n%s\n\n", theme.Semantic.PrimaryAccent.Sprint("+ "+strings.Join(args, " ")))
 }
 
 var isFirstRefreshAfterStartup = true
@@ -1266,6 +1265,7 @@ func (gui *Gui) setColorScheme() {
 	theme.UpdateTheme(userConfig.Gui.Theme)
 
 	gui.g.FgColor = theme.InactiveBorderColor
+	gui.g.BgColor = theme.Semantic.GocuiBase
 	gui.g.SelFgColor = theme.ActiveBorderColor
 	gui.g.FrameColor = theme.InactiveBorderColor
 	gui.g.SelFrameColor = theme.ActiveBorderColor

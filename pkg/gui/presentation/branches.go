@@ -6,7 +6,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gookit/color"
 	"github.com/jesseduffield/lazygit/pkg/commands/git_commands"
 	"github.com/jesseduffield/lazygit/pkg/commands/models"
 	"github.com/jesseduffield/lazygit/pkg/config"
@@ -126,15 +125,15 @@ func getBranchDisplayStrings(
 	}
 	coloredName := nameTextStyle.Sprint(displayName)
 	if checkedOutByWorkTree {
-		coloredName = fmt.Sprintf("%s %s", coloredName, style.FgDefault.Sprint(worktreeIcon))
+		coloredName = fmt.Sprintf("%s %s", coloredName, theme.Semantic.Text.Sprint(worktreeIcon))
 	}
 	if len(branchStatus) > 0 {
 		coloredName = fmt.Sprintf("%s %s", coloredName, branchStatus)
 	}
 
-	recencyColor := style.FgCyan
+	recencyColor := theme.Semantic.SecondaryAccent
 	if b.Recency == "  *" {
-		recencyColor = style.FgGreen
+		recencyColor = theme.Semantic.Focus
 	}
 
 	res := make([]string, 0, 6)
@@ -173,7 +172,7 @@ func getBranchDisplayStrings(
 		}
 		if paddingNeededForDivergence > 0 {
 			coloredName += strings.Repeat(" ", paddingNeededForDivergence)
-			coloredName += style.FgCyan.Sprint(divergence)
+			coloredName += theme.Semantic.PrimaryAccent.Sprint(divergence)
 		}
 	}
 	res = append(res, coloredName)
@@ -182,8 +181,8 @@ func getBranchDisplayStrings(
 		res = append(
 			res,
 			fmt.Sprintf("%s %s",
-				style.FgYellow.Sprint(b.UpstreamRemote),
-				style.FgYellow.Sprint(b.UpstreamBranch),
+				theme.Semantic.PrimaryAccent.Sprint(b.UpstreamRemote),
+				theme.Semantic.PrimaryAccent.Sprint(b.UpstreamBranch),
 			),
 			utils.TruncateWithEllipsis(b.Subject, 60),
 		)
@@ -227,23 +226,23 @@ func BranchStatus(
 ) string {
 	itemOperationStr := ItemOperationToString(itemOperation, tr)
 	if itemOperationStr != "" {
-		return style.FgCyan.Sprintf("%s %s", itemOperationStr, Loader(now, userConfig.Gui.Spinner))
+		return theme.Semantic.InProgress.Sprintf("%s %s", itemOperationStr, Loader(now, userConfig.Gui.Spinner))
 	}
 
 	result := ""
 	if branch.IsTrackingRemote() {
 		if branch.UpstreamGone {
-			result = style.FgRed.Sprint(tr.UpstreamGone)
+			result = theme.Semantic.Error.Sprint(tr.UpstreamGone)
 		} else if branch.MatchesUpstream() {
-			result = style.FgGreen.Sprint("✓")
+			result = theme.Semantic.Success.Sprint("✓")
 		} else if branch.RemoteBranchNotStoredLocally() {
-			result = style.FgMagenta.Sprint("?")
+			result = theme.Semantic.SecondaryAccent.Sprint("?")
 		} else if branch.IsBehindForPull() && branch.IsAheadForPull() {
-			result = style.FgYellow.Sprintf("↓%s↑%s", branch.BehindForPull, branch.AheadForPull)
+			result = theme.Semantic.InProgress.Sprintf("↓%s↑%s", branch.BehindForPull, branch.AheadForPull)
 		} else if branch.IsBehindForPull() {
-			result = style.FgYellow.Sprintf("↓%s", branch.BehindForPull)
+			result = theme.Semantic.InProgress.Sprintf("↓%s", branch.BehindForPull)
 		} else if branch.IsAheadForPull() {
-			result = style.FgYellow.Sprintf("↑%s", branch.AheadForPull)
+			result = theme.Semantic.InProgress.Sprintf("↑%s", branch.AheadForPull)
 		}
 	}
 
@@ -279,17 +278,22 @@ func SetCustomBranches(customBranchColors map[string]string, isRegex bool) {
 }
 
 func WithPrColor(state string, text string, isBg bool) string {
+	foreground, background := pullRequestStateStyles(state)
+	return lo.Ternary(isBg, background, foreground).Sprint(text)
+}
+
+func pullRequestStateStyles(state string) (style.TextStyle, style.TextStyle) {
 	switch state {
 	case "OPEN":
-		return color.RGB(0x43, 0x84, 0x40, isBg).Sprint(text)
+		return theme.Semantic.PrimaryAccent, theme.Semantic.PrimaryAccentBackground
 	case "CLOSED":
-		return color.RGB(0xC9, 0x45, 0x3C, isBg).Sprint(text)
+		return theme.Semantic.Error, theme.Semantic.ErrorBackground
 	case "MERGED":
-		return color.RGB(0x82, 0x59, 0xDD, isBg).Sprint(text)
+		return theme.Semantic.Success, theme.Semantic.SuccessBackground
 	case "DRAFT":
-		return color.RGB(0x67, 0x6C, 0x75, isBg).Sprint(text)
+		return theme.Semantic.SecondaryAccent, theme.Semantic.SecondaryAccentBackground
 	default:
-		return lo.Ternary(isBg, style.BgDefault, style.FgDefault).Sprint(text)
+		return theme.Semantic.Text, theme.Semantic.Base
 	}
 }
 
@@ -297,7 +301,7 @@ func FormatPullRequestHeader(pr *models.GithubPullRequest, tr *i18n.TranslationS
 	icon := lo.Ternary(icons.IsIconEnabled(), icons.IconForRemoteUrl(pr.Url)+"  ", "")
 	stateText := coloredPullRequestStateText(pr.State)
 	checksStateText := coloredChecksStateText(pr.ChecksState, tr)
-	numberText := style.FgCyan.Sprintf("#%d", pr.Number)
+	numberText := theme.Semantic.PrimaryAccent.Sprintf("#%d", pr.Number)
 
 	// The checks status links to the checks tab, so it needs to be its own
 	// hyperlink separate from the rest of the header.
@@ -334,7 +338,7 @@ func coloredPullRequestStateText(state string) string {
 	if icons.IsIconEnabled() {
 		return fmt.Sprintf("%s%s%s",
 			WithPrColor(state, "", false),
-			WithPrColor(state, color.RGB(0xFF, 0xFF, 0xFF, false).Sprint(pullRequestStateText(state)), true),
+			WithPrColor(state, theme.Semantic.BaseForeground.Sprint(pullRequestStateText(state)), true),
 			WithPrColor(state, "", false))
 	}
 
@@ -344,15 +348,15 @@ func coloredPullRequestStateText(state string) string {
 func checksStatePresentation(state string, tr *i18n.TranslationSet) (string, string, style.TextStyle) {
 	switch state {
 	case "SUCCESS":
-		return "✓", tr.PullRequestChecksPassing, style.FgGreen
+		return "✓", tr.PullRequestChecksPassing, theme.Semantic.Success
 	case "PENDING":
-		return "●", tr.PullRequestChecksPending, style.FgYellow
+		return "●", tr.PullRequestChecksPending, theme.Semantic.InProgress
 	case "FAILURE":
-		return "✗", tr.PullRequestChecksFailing, style.FgRed
+		return "✗", tr.PullRequestChecksFailing, theme.Semantic.Error
 	case "ERROR":
-		return "!", tr.PullRequestChecksError, style.FgRed
+		return "!", tr.PullRequestChecksError, theme.Semantic.Error
 	case "EXPECTED":
-		return "○", tr.PullRequestChecksExpected, style.FgDefault
+		return "○", tr.PullRequestChecksExpected, theme.Semantic.Text
 	default:
 		return "", "", style.Nothing
 	}

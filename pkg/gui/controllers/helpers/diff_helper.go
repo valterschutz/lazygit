@@ -8,8 +8,8 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/commands/patch"
 	"github.com/jesseduffield/lazygit/pkg/gui/context"
 	"github.com/jesseduffield/lazygit/pkg/gui/modes/diffing"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/samber/lo"
 )
 
@@ -73,7 +73,7 @@ func (self *DiffHelper) GetUpdateTaskForRenderingCommitsDiff(commit *models.Comm
 			}
 		}
 		cmdObj := self.c.Git().Diff.DiffCmdObj(args)
-		prefix := style.FgYellow.Sprintf("%s %s-%s\n\n", self.c.Tr.ShowingDiffForRange, from.ShortRefName(), to.ShortRefName())
+		prefix := theme.Semantic.Focus.Sprintf("%s %s-%s\n\n", self.c.Tr.ShowingDiffForRange, from.ShortRefName(), to.ShortRefName())
 		return types.NewRunPtyTaskWithPrefix(cmdObj.GetCmd(), prefix)
 	}
 
@@ -101,7 +101,7 @@ func (self *DiffHelper) ExitDiffMode() error {
 func (self *DiffHelper) RenderDiff() {
 	args := self.DiffArgs()
 	cmdObj := self.c.Git().Diff.DiffCmdObj(args)
-	prefix := style.FgMagenta.Sprintf(
+	prefix := theme.Semantic.Focus.Sprintf(
 		"%s %s\n\n",
 		self.c.Tr.ShowingGitDiff,
 		"git diff "+strings.Join(args, " "),

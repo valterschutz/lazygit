@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/jesseduffield/lazygit/pkg/constants"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/theme"
 )
 
@@ -38,7 +37,7 @@ func (gui *Gui) LogAction(action string) {
 		gui.Views.Extras.Autoscroll = true
 
 		gui.GuiLog = append(gui.GuiLog, action)
-		fmt.Fprint(gui.Views.Extras, "\n"+style.FgYellow.Sprint(action))
+		fmt.Fprint(gui.Views.Extras, "\n"+theme.Semantic.InProgress.Sprint(action))
 		return nil
 	})
 }
@@ -52,7 +51,7 @@ func (gui *Gui) LogCommand(cmdStr string, commandLine bool) {
 	if !commandLine {
 		// if we're not dealing with a direct command that could be run on the command line,
 		// we style it differently to communicate that
-		textStyle = style.FgMagenta
+		textStyle = theme.Semantic.SecondaryAccent
 	}
 	indentedCmdStr := "  " + strings.ReplaceAll(cmdStr, "\n", "\n  ")
 
@@ -72,14 +71,14 @@ func (gui *Gui) printCommandLogHeader() {
 		gui.c.Tr.CommandLogHeader,
 		gui.c.UserConfig().Keybinding.Universal.ExtrasMenu,
 	)
-	fmt.Fprintln(gui.Views.Extras, style.FgCyan.Sprint(introStr))
+	fmt.Fprintln(gui.Views.Extras, theme.Semantic.PrimaryAccent.Sprint(introStr))
 
 	if gui.c.UserConfig().Gui.ShowRandomTip {
 		fmt.Fprintf(
 			gui.Views.Extras,
 			"%s: %s",
-			style.FgYellow.Sprint(gui.c.Tr.RandomTip),
-			style.FgGreen.Sprint(gui.getRandomTip()),
+			theme.Semantic.PrimaryAccent.Sprint(gui.c.Tr.RandomTip),
+			theme.Semantic.Text.Sprint(gui.getRandomTip()),
 		)
 	}
 }

@@ -3,9 +3,16 @@ package authors
 import (
 	"testing"
 
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/jesseduffield/lazygit/pkg/utils"
 	"github.com/stretchr/testify/assert"
 )
+
+func TestAuthorStyleUsesSecondaryAccentByDefault(t *testing.T) {
+	clear(authorStyleCache)
+
+	assert.Equal(t, theme.Semantic.SecondaryAccent, *AuthorStyle("Ada Lovelace"))
+}
 
 func TestGetInitials(t *testing.T) {
 	for input, expectedOutput := range map[string]string{

@@ -12,8 +12,8 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/config"
 	"github.com/jesseduffield/lazygit/pkg/gocui"
 	"github.com/jesseduffield/lazygit/pkg/gui/presentation"
-	"github.com/jesseduffield/lazygit/pkg/gui/style"
 	"github.com/jesseduffield/lazygit/pkg/gui/types"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/samber/lo"
 )
 
@@ -195,7 +195,7 @@ func addCommitDropIndicator(
 
 	return slices.Insert(items, insertAt, &NonModelItem{
 		Index:   indicator.insertionIndex,
-		Content: style.FgCyan.SetBold().Sprintf("━━━━━━ %s ━━━━━━", label),
+		Content: theme.Semantic.Focus.SetBold().Sprintf("━━━━━━ %s ━━━━━━", label),
 		Column:  6, // align with the commit subject
 	})
 }
