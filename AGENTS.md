@@ -2,6 +2,20 @@
 
 Guidance for AI coding agents working on this repository.
 
+## Agent skills
+
+### Issue tracker
+
+GitHub issues on the fork (`valterschutz/lazygit`), via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default five-role vocabulary (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`), unchanged. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+
 ## No PRs
 
 Do not create PRs under any circumstances. Even if the user explicitly asks you
