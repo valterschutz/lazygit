@@ -891,7 +891,11 @@ type TranslationSet struct {
 	SwitchToWorktreeTooltip                  string
 	AlreadyCheckedOutByWorktree              string
 	BranchCheckedOutByWorktree               string
-	SomeBranchesCheckedOutByWorktreeError    string
+	BulkWorktreeDeletePrompt                 string
+	BulkWorktreeDeleteBothPrompt             string
+	BulkWorktreeUnmerged                     string
+	BulkWorktreeProtected                    string
+	BulkWorktreeFailures                     string
 	DetachWorktreeTooltip                    string
 	Switching                                string
 	RemoveWorktree                           string
@@ -2057,7 +2061,11 @@ func EnglishTranslationSet() *TranslationSet {
 		SwitchToWorktreeTooltip:                  "Switch to the selected worktree.",
 		AlreadyCheckedOutByWorktree:              "This branch is checked out by worktree {{.worktreeName}}. Do you want to switch to that worktree?",
 		BranchCheckedOutByWorktree:               "Branch {{.branchName}} is checked out by worktree {{.worktreeName}}",
-		SomeBranchesCheckedOutByWorktreeError:    "Some of the selected branches are checked out by other worktrees. Select them one by one to delete them.",
+		BulkWorktreeDeletePrompt:                 "Remove associated worktrees and delete these local branches? Dirty or protected worktrees will be skipped.\n\n{{.branches}}",
+		BulkWorktreeDeleteBothPrompt:             "Remove associated worktrees and delete these local branches and their upstream branches? Dirty or protected worktrees will be skipped.\n\n{{.branches}}",
+		BulkWorktreeUnmerged:                     "These branches are not fully merged. Are you sure you want to delete them?\n\n{{.branches}}",
+		BulkWorktreeProtected:                    "Main and current worktrees cannot be removed.",
+		BulkWorktreeFailures:                     "Cleanup completed with skipped or failed items. Their local branches were kept:",
 		DetachWorktreeTooltip:                    "This will run `git checkout --detach` on the worktree so that it stops hogging the branch, but the worktree's working tree will be left alone.",
 		Switching:                                "Switching",
 		RemoveWorktree:                           "Remove worktree",

@@ -1,7 +1,6 @@
 package helpers
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 
@@ -28,7 +27,7 @@ func NewBranchesHelper(c *HelperCommon, worktreeHelper *WorktreeHelper) *Branche
 func (self *BranchesHelper) ConfirmLocalDelete(branches []*models.Branch) error {
 	if len(branches) > 1 {
 		if lo.SomeBy(branches, func(branch *models.Branch) bool { return self.checkedOutByOtherWorktree(branch) }) {
-			return errors.New(self.c.Tr.SomeBranchesCheckedOutByWorktreeError)
+			return self.confirmBulkWorktreeDelete(branches, false)
 		}
 	} else if self.checkedOutByOtherWorktree(branches[0]) {
 		return self.promptWorktreeBranchDelete(
@@ -105,7 +104,7 @@ func (self *BranchesHelper) ConfirmDeleteRemote(remoteBranches []*models.RemoteB
 func (self *BranchesHelper) ConfirmLocalAndRemoteDelete(branches []*models.Branch) error {
 	if len(branches) > 1 {
 		if lo.SomeBy(branches, func(branch *models.Branch) bool { return self.checkedOutByOtherWorktree(branch) }) {
-			return errors.New(self.c.Tr.SomeBranchesCheckedOutByWorktreeError)
+			return self.confirmBulkWorktreeDelete(branches, true)
 		}
 	} else if self.checkedOutByOtherWorktree(branches[0]) {
 		return self.promptWorktreeBranchDelete(
@@ -167,6 +166,89 @@ func (self *BranchesHelper) ConfirmLocalAndRemoteDelete(branches []*models.Branc
 		},
 	})
 
+	return nil
+}
+
+// confirmBulkWorktreeDelete snapshots the selection before starting worker tasks.
+func (self *BranchesHelper) confirmBulkWorktreeDelete(branches []*models.Branch, deleteRemote bool) error {
+	worktrees := make(map[string]*models.Worktree)
+	var unmerged []string
+	for _, branch := range branches {
+		if worktree, ok := self.worktreeForBranch(branch); ok {
+			worktrees[branch.Name] = worktree
+		}
+		merged, err := self.c.Git().Branch.IsBranchMerged(branch, self.c.Model().MainBranches)
+		if err != nil {
+			return err
+		}
+		if !merged {
+			unmerged = append(unmerged, branch.Name)
+		}
+	}
+
+	run := func() error {
+		return self.c.WithWaitingStatus(self.c.Tr.DeletingStatus, func(task gocui.Task) error {
+			var failures []string
+			for _, branch := range branches {
+				if worktree := worktrees[branch.Name]; worktree != nil {
+					if worktree.IsMain || worktree.IsCurrent {
+						failures = append(failures, branch.Name+": "+self.c.Tr.BulkWorktreeProtected)
+						continue
+					}
+					self.c.LogAction(self.c.Tr.RemoveWorktree)
+					// Git refuses dirty, locked, or submodule worktrees without force.
+					if err := self.c.Git().Worktree.Delete(worktree.Path, false); err != nil {
+						failures = append(failures, branch.Name+": "+err.Error())
+						continue
+					}
+				}
+				var err error
+				if deleteRemote {
+					err = self.doDeleteLocalAndRemoteBranches(task, []*models.Branch{branch})
+				} else {
+					err = self.doDeleteLocalBranches([]*models.Branch{branch})
+				}
+				if err != nil {
+					failures = append(failures, branch.Name+": "+err.Error())
+				}
+			}
+			self.c.OnUIThread(func() error {
+				self.c.Contexts().Branches.CollapseRangeSelectionToTop()
+				return nil
+			})
+			self.c.RefreshFromWorker(types.RefreshOptions{
+				Scope: []types.RefreshableView{types.WORKTREES, types.BRANCHES, types.REMOTES, types.FILES},
+			})
+			if len(failures) > 0 {
+				return fmt.Errorf("%s\n\n%s", self.c.Tr.BulkWorktreeFailures, strings.Join(failures, "\n\n"))
+			}
+			return nil
+		})
+	}
+	confirmUnmerged := func() error {
+		if len(unmerged) == 0 {
+			return run()
+		}
+		self.c.Confirm(types.ConfirmOpts{
+			Title: self.c.Tr.ForceDeleteBranchTitle,
+			Prompt: utils.ResolvePlaceholderString(self.c.Tr.BulkWorktreeUnmerged, map[string]string{
+				"branches": strings.Join(unmerged, "\n"),
+			}),
+			HandleConfirm: run,
+		})
+		return nil
+	}
+	prompt := self.c.Tr.BulkWorktreeDeletePrompt
+	if deleteRemote {
+		prompt = self.c.Tr.BulkWorktreeDeleteBothPrompt
+	}
+	self.c.Confirm(types.ConfirmOpts{
+		Title: self.c.Tr.DeleteBranchesTitle,
+		Prompt: utils.ResolvePlaceholderString(prompt, map[string]string{
+			"branches": strings.Join(lo.Map(branches, func(branch *models.Branch, _ int) string { return branch.Name }), "\n"),
+		}),
+		HandleConfirm: confirmUnmerged,
+	})
 	return nil
 }
 

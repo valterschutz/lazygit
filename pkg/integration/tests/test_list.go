@@ -556,6 +556,8 @@ var tests = []*components.IntegrationTest{
 	worktree.AssociateBranchRebase,
 	worktree.BareRepo,
 	worktree.BareRepoWorktreeConfig,
+	worktree.BulkRemoveFromBranches,
+	worktree.BulkRemoveProtected,
 	worktree.Crud,
 	worktree.CustomCommand,
 	worktree.DefaultPathTilde,
