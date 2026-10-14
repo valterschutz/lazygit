@@ -10,6 +10,7 @@ import (
 	"github.com/jesseduffield/lazygit/pkg/common"
 	"github.com/jesseduffield/lazygit/pkg/config"
 	"github.com/jesseduffield/lazygit/pkg/gui/filetree"
+	"github.com/jesseduffield/lazygit/pkg/theme"
 	"github.com/jesseduffield/lazygit/pkg/utils"
 	"github.com/stretchr/testify/assert"
 	"github.com/xo/terminfo"
@@ -236,4 +237,57 @@ M file1
 			assert.EqualValues(t, s.expected, result)
 		})
 	}
+}
+
+func TestRenderFileTreeColors(t *testing.T) {
+	oldColorLevel := color.ForceSetColorLevel(terminfo.ColorLevelMillions)
+	defer color.ForceSetColorLevel(oldColorLevel)
+
+	text := theme.Semantic.Text
+	staged := theme.Semantic.Success
+	conflict := theme.Semantic.Error
+
+	scenarios := []struct {
+		name     string
+		file     *models.File
+		expected string
+	}{
+		{
+			name:     "unstaged",
+			file:     &models.File{Path: "a", ShortStatus: " M", HasUnstagedChanges: true},
+			expected: text.Sprint(" ") + text.Sprint("M") + text.Sprint(" ") + text.Sprint("a"),
+		},
+		{
+			name:     "untracked",
+			file:     &models.File{Path: "a", ShortStatus: "??", HasUnstagedChanges: true},
+			expected: text.Sprint("?") + text.Sprint("?") + text.Sprint(" ") + text.Sprint("a"),
+		},
+		{
+			name:     "staged",
+			file:     &models.File{Path: "a", ShortStatus: "M ", HasStagedChanges: true},
+			expected: staged.Sprint("M") + staged.Sprint(" ") + staged.Sprint(" ") + staged.Sprint("a"),
+		},
+		{
+			name: "conflict",
+			file: &models.File{
+				Path: "a", ShortStatus: "UU", HasStagedChanges: true, HasUnstagedChanges: true, HasMergeConflicts: true,
+			},
+			expected: conflict.Sprint("UU") + conflict.Sprint(" ") + conflict.Sprint("a"),
+		},
+	}
+
+	for _, s := range scenarios {
+		t.Run(s.name, func(t *testing.T) {
+			theme.UpdateTheme(config.ThemeConfig{UnstagedChangesColor: []string{"#cdd6f4"}, DefaultFgColor: []string{"#cdd6f4"}})
+			common := common.NewDummyCommon()
+			viewModel := filetree.NewFileTree(func() []*models.File { return []*models.File{s.file} }, common, false)
+			viewModel.SetTree()
+			result := RenderFileTree(viewModel, nil, false, false, &config.CustomIconsConfig{}, false)
+			assert.EqualValues(t, []string{s.expected}, result)
+		})
+	}
+}
+
+func TestCommitFileDeletionIsError(t *testing.T) {
+	assert.Equal(t, theme.Semantic.Error, getColorForChangeStatus("D"))
 }

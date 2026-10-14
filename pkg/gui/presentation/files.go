@@ -131,7 +131,9 @@ func getFileLine(
 
 	indentation := strings.Repeat("  ", visualDepth)
 
-	if hasStagedChanges && !hasUnstagedChanges {
+	if node.SomeFile(func(file *models.File) bool { return file.HasMergeConflicts }) {
+		nameColor = theme.Semantic.Error
+	} else if hasStagedChanges && !hasUnstagedChanges {
 		nameColor = theme.Semantic.Success
 	} else if hasStagedChanges {
 		nameColor = theme.Semantic.InProgress
@@ -182,6 +184,10 @@ func getFileLine(
 }
 
 func formatFileStatus(file *models.File, restColor style.TextStyle) string {
+	if file.HasMergeConflicts {
+		return theme.Semantic.Error.Sprint(file.ShortStatus)
+	}
+
 	firstChar := file.ShortStatus[0:1]
 	firstCharCl := theme.Semantic.Success
 	switch firstChar {
@@ -289,7 +295,7 @@ func getColorForChangeStatus(changeStatus string) style.TextStyle {
 	case "M", "R":
 		return theme.Semantic.PrimaryAccent
 	case "D":
-		return theme.UnstagedChangesColor
+		return theme.Semantic.Error
 	case "C":
 		return theme.Semantic.PrimaryAccent
 	case "T":

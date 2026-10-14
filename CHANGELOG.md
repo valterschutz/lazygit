@@ -3,6 +3,14 @@
 Personal changes to [jesseduffield/lazygit](https://github.com/jesseduffield/lazygit),
 newest first. Upstream's own changes arrive by merging `upstream/master`.
 
+## 2026-10-14: file status colors follow staging state
+
+- In the files view, conflicted files are Red throughout: both status letters,
+  the name, and any directory containing them.
+- Deleted files in the commit files view are Red regardless of
+  `gui.theme.unstagedChangesColor`, which now only colors the unstaged side of
+  a file's status letters (and untracked `??`).
+
 ## 2026-09-25: semantic Catppuccin Mocha theme
 
 - Rendering uses one Catppuccin Mocha palette consistently: Mauve for focus,
